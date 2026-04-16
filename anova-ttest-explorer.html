@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ANOVA vs T-Test Explorer</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4ef;color:#3d3d3a;padding:20px;max-width:820px;margin:0 auto;}
+h1{font-size:21px;font-weight:500;margin-bottom:3px;}
+.sub{font-size:13px;color:#73726c;margin-bottom:20px;}
+.cb{padding:7px 14px;border-radius:6px;border:0.5px solid #c2c1b9;background:#fff;color:#3d3d3a;font-size:13px;cursor:pointer;transition:background .12s;}
+.cb.on{background:#dbeafe;color:#1e4f8c;border-color:#93c5fd;}
+.cb:hover:not(.on){background:#eeedea;}
+.row{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px;}
+.sl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#73726c;margin-bottom:5px;}
+.mc{background:#eeedea;border-radius:8px;padding:10px 13px;}
+.mclbl{font-size:11px;color:#73726c;margin-bottom:3px;}
+.mcval{font-size:17px;font-weight:500;}
+.micro{font-size:11px;color:#9c9a92;margin-top:2px;}
+.sec{margin-top:16px;}
+canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;}
+.at{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:8px;overflow:hidden;}
+.at th{font-weight:500;text-align:left;padding:7px 10px;color:#73726c;border-bottom:0.5px solid #ddddd5;background:#f5f4ef;}
+.at td{padding:7px 10px;border-bottom:0.5px solid #e8e8e0;color:#3d3d3a;}
+.at tbody tr:last-child td{font-weight:500;border:none;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.task{background:#eeedea;border-radius:10px;padding:13px 15px;margin-bottom:8px;border-left:3px solid #c2c1b9;transition:border-color .15s;}
+.task.done{border-left-color:#1D9E75;}
+.tnum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#fff;border:0.5px solid #c2c1b9;font-size:11px;font-weight:500;color:#73726c;margin-right:8px;flex-shrink:0;cursor:pointer;transition:all .15s;vertical-align:top;margin-top:2px;}
+.task.done .tnum{background:#1D9E75;border-color:#1D9E75;color:#fff;}
+.trow{display:flex;align-items:flex-start;}
+.tbody{font-size:13px;color:#3d3d3a;line-height:1.6;flex:1;}
+.thint{display:none;font-size:12px;color:#73726c;margin-top:8px;padding:8px 10px;background:#fff;border-radius:6px;line-height:1.65;}
+.thint.open{display:block;}
+.hbtn{font-size:11px;color:#9c9a92;background:none;border:0.5px solid #c2c1b9;border-radius:5px;padding:3px 8px;cursor:pointer;margin-top:8px;display:inline-block;}
+.hbtn:hover{color:#3d3d3a;}
+.cmp{background:#eeedea;border-radius:12px;padding:13px 15px;}
+.cr{font-size:12px;color:#73726c;margin-bottom:5px;line-height:1.5;}
+.cr b{color:#3d3d3a;font-weight:500;}
+.leg{display:flex;gap:14px;margin:8px 0 0;font-size:11px;color:#73726c;flex-wrap:wrap;}
+.leg span{display:flex;align-items:center;gap:4px;}
+</style>
+</head>
+<body>
+
+<h1>ANOVA vs T-Test Explorer</h1>
+<p class="sub">Interactive classroom tool — between-group vs within-group variance, SS breakdown, F-distribution &amp; student tasks.</p>
+
+<div class="row">
+  <div><div class="sl">Number of groups</div><div style="display:flex;gap:4px;"><button class="cb on" id="b2" onclick="setG(2)">2 groups</button><button class="cb" id="b3" onclick="setG(3)">3 groups</button><button class="cb" id="b4" onclick="setG(4)">4 groups</button></div></div>
+  <div style="flex:1;min-width:130px;"><div class="sl">Group separation</div><input type="range" min="4" max="42" value="20" id="sep" step="1" oninput="setSep(+this.value)" style="width:100%;"></div>
+  <button class="cb" onclick="newSample()">&#8635; New sample</button>
+  <div style="margin-left:auto;text-align:right;"><div class="sl">Appropriate test</div><div id="tstlbl" style="font-size:15px;font-weight:500;color:#1e4f8c;">Independent T-Test</div></div>
+</div>
+
+<canvas id="cv"></canvas>
+<div class="leg">
+  <span><span style="width:16px;height:2px;background:rgba(80,80,78,.35);display:inline-block;"></span>Grand mean</span>
+  <span><span style="width:16px;height:3px;background:#E85D24;border-radius:2px;display:inline-block;"></span>Between-group (signal)</span>
+  <span><span style="width:16px;height:3px;background:#378ADD;border-radius:2px;display:inline-block;"></span>Within-group (noise)</span>
+</div>
+
+<div class="sec">
+  <div class="sl">Sum of Squares — SS<sub>total</sub> = SS<sub>between</sub> + SS<sub>within</sub></div>
+  <div style="display:flex;border-radius:8px;overflow:hidden;height:34px;font-size:12px;font-weight:500;margin-bottom:10px;">
+    <div id="ssbar-b" style="background:#E85D2499;display:flex;align-items:center;justify-content:center;color:#fff;min-width:36px;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
+    <div id="ssbar-w" style="background:#378ADD99;display:flex;align-items:center;justify-content:center;color:#fff;flex:1;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
+  </div>
+  <div class="g3">
+    <div class="mc"><div class="mclbl">SS<sub>between</sub></div><div class="mcval" style="color:#E85D24;" id="mssb">—</div><div class="micro">Between groups</div></div>
+    <div class="mc"><div class="mclbl">SS<sub>within</sub></div><div class="mcval" style="color:#378ADD;" id="mssw">—</div><div class="micro">Within groups</div></div>
+    <div class="mc"><div class="mclbl">SS<sub>total</sub></div><div class="mcval" id="msst">—</div><div class="micro">SS_b + SS_w</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sl" id="ttlbl">ANOVA Summary Table</div>
+  <table class="at">
+    <thead><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th id="thstat">F</th><th>p-value</th></tr></thead>
+    <tbody>
+      <tr><td id="src1" style="color:#E85D24;">Between groups</td><td id="tss1">—</td><td id="tdf1">—</td><td id="tms1">—</td><td id="tstat">—</td><td id="tpval">—</td></tr>
+      <tr><td id="src2" style="color:#378ADD;">Within groups</td><td id="tss2">—</td><td id="tdf2">—</td><td id="tms2">—</td><td></td><td></td></tr>
+      <tr><td>Total</td><td id="tsst">—</td><td id="tdft">—</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sec">
+  <div class="sl" id="distsl">F-Distribution — shaded tail = p-value</div>
+  <canvas id="dcv"></canvas>
+  <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
+    <div class="mc" style="flex:0 0 auto;"><div class="mclbl" id="pvlbl">p-value</div><div class="mcval" style="color:#E85D24;" id="mpval">—</div></div>
+    <div id="psig" style="font-size:12px;font-weight:500;flex:1;"></div>
+  </div>
+  <div id="fequiv" style="display:none;font-size:12px;color:#73726c;margin-top:8px;background:#eeedea;padding:8px 12px;border-radius:8px;border-left:2px solid #93c5fd;line-height:1.6;"></div>
+</div>
+
+<div class="sec">
+  <div class="sl">Student tasks — work through these in order</div>
+  <p style="font-size:12px;color:#73726c;margin-bottom:10px;">Click the numbered circle to mark a task complete. Use the hint button if you get stuck.</p>
+  <div id="tasks"></div>
+</div>
+
+<div class="sec" style="margin-bottom:20px;">
+  <div class="g2">
+    <div class="cmp">
+      <div style="font-size:13px;font-weight:500;color:#1e4f8c;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">Independent T-Test</div>
+      <div class="cr"><b>Groups:</b> Exactly 2</div>
+      <div class="cr"><b>Question:</b> Is M&#8321; &#8800; M&#8322;?</div>
+      <div class="cr"><b>Stat:</b> t = (M&#8321;&#8722;M&#8322;) / SE</div>
+      <div class="cr"><b>df:</b> N &#8722; 2</div>
+      <div class="cr"><b>Note:</b> F = t&#178; when df&#8321; = 1</div>
+      <div class="cr"><b>Post-hoc:</b> Not needed</div>
+    </div>
+    <div class="cmp">
+      <div style="font-size:13px;font-weight:500;color:#0f6e56;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">One-Way ANOVA</div>
+      <div class="cr"><b>Groups:</b> 3 or more</div>
+      <div class="cr"><b>Question:</b> Are ANY means &#8800;?</div>
+      <div class="cr"><b>Stat:</b> F = MS_between / MS_within</div>
+      <div class="cr"><b>df:</b> (k&#8722;1, N&#8722;k)</div>
+      <div class="cr"><b>Note:</b> One test protects &#945;</div>
+      <div class="cr"><b>Post-hoc:</b> Tukey, Bonferroni&#8230;</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let G=2,sep=20,grps=[];
+const C=['#378ADD','#1D9E75','#D85A30','#7F77DD'];
+const NM=['Group A','Group B','Group C','Group D'];
+
+function lgam(z){if(z<.5)return Math.log(Math.PI/Math.sin(Math.PI*z))-lgam(1-z);z--;const g=[.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];let x=g[0];for(let i=1;i<9;i++)x+=g[i]/(z+i);const t=z+7.5;return .5*Math.log(2*Math.PI)+(z+.5)*Math.log(t)-t+Math.log(x);}
+function lb(a,b){return lgam(a)+lgam(b)-lgam(a+b);}
+function fPDF(x,d1,d2){if(x<=1e-8)return 0;try{return Math.exp((d1/2)*Math.log(d1/d2)+(d1/2-1)*Math.log(x)-((d1+d2)/2)*Math.log(1+d1*x/d2)-lb(d1/2,d2/2));}catch(e){return 0;}}
+function tPDF(x,v){try{return Math.exp(lgam((v+1)/2)-.5*Math.log(v*Math.PI)-lgam(v/2)-((v+1)/2)*Math.log(1+x*x/v));}catch(e){return 0;}}
+function nint(f,a,b,n=600){const h=(b-a)/n;let s=f(a)+f(b);for(let i=1;i<n;i++)s+=(i%2?4:2)*f(a+i*h);return Math.max(0,s*h/3);}
+function fPval(F,d1,d2){return nint(x=>fPDF(x,d1,d2),F,Math.max(F*5,30));}
+function tPval(t,v){const a=Math.abs(t);return 2*nint(x=>tPDF(x,v),a,Math.max(a*5,20));}
+function gauss(){let u,v,s;do{u=Math.random()*2-1;v=Math.random()*2-1;s=u*u+v*v;}while(s>=1||!s);return u*Math.sqrt(-2*Math.log(s)/s);}
+function mkG(n,s){return Array.from({length:n},(_,gi)=>{const nom=50+gi*s;const pts=Array.from({length:14},()=>({v:nom+gauss()*9,j:(Math.random()-.5)*12}));const mean=pts.reduce((a,p)=>a+p.v,0)/pts.length;const vr=pts.reduce((a,p)=>a+(p.v-mean)**2,0)/pts.length;return{name:NM[gi],color:C[gi],pts,mean,vr};});}
+
+function calc(gs){
+  const N=gs.reduce((a,g)=>a+g.pts.length,0),k=gs.length;
+  const gm=gs.reduce((a,g)=>a+g.pts.reduce((s,p)=>s+p.v,0),0)/N;
+  const SS_b=gs.reduce((a,g)=>a+g.pts.length*(g.mean-gm)**2,0);
+  const SS_w=gs.reduce((a,g)=>a+g.pts.reduce((s,p)=>s+(p.v-g.mean)**2,0),0);
+  const SS_t=SS_b+SS_w;
+  const df_b=k-1,df_w=N-k;
+  const MS_b=SS_b/df_b,MS_w=SS_w/Math.max(df_w,1);
+  const F=MS_b/Math.max(MS_w,.001);
+  let t_stat=null,pval;
+  if(k===2){const se=Math.sqrt(MS_w*(1/gs[0].pts.length+1/gs[1].pts.length));t_stat=Math.abs(gs[0].mean-gs[1].mean)/Math.max(se,.001);pval=tPval(t_stat,df_w);}
+  else{pval=fPval(F,df_b,df_w);}
+  return{gm,SS_b,SS_w,SS_t,df_b,df_w,MS_b,MS_w,F,t_stat,pval,N,k};
+}
+
+function drawG(gs,st){
+  const cv=document.getElementById('cv'),dpr=Math.min(devicePixelRatio||1,2);
+  const W=800,H=52+gs.length*65;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const allV=gs.flatMap(g=>g.pts.map(p=>p.v));
+  const lo=Math.min(...allV)-14,hi=Math.max(...allV)+14;
+  const tX=v=>72+(v-lo)/(hi-lo)*(W-92);
+  const gx=tX(st.gm);
+  ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H-22);
+  ctx.strokeStyle='rgba(80,80,78,.22)';ctx.setLineDash([5,4]);ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(60,60,58,.75)';ctx.font='11px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Grand mean',gx,H-7);
+  gs.forEach((g,gi)=>{
+    const cy=26+gi*65,mx=tX(g.mean),sd=Math.sqrt(g.vr);
+    ctx.font='500 12px system-ui,sans-serif';ctx.textAlign='right';ctx.fillStyle=g.color;ctx.fillText(g.name,64,cy+4);
+    const bx1=tX(g.mean-sd),bx2=tX(g.mean+sd);
+    ctx.fillStyle='#378ADD18';ctx.strokeStyle='#378ADD30';ctx.lineWidth=1;
+    ctx.beginPath();ctx.rect(bx1,cy-11,bx2-bx1,22);ctx.fill();ctx.stroke();
+    g.pts.forEach(p=>{ctx.beginPath();ctx.arc(tX(p.v),cy+p.j*.45,3.8,0,Math.PI*2);ctx.fillStyle=g.color+'bb';ctx.fill();});
+    ctx.beginPath();ctx.moveTo(mx,cy-17);ctx.lineTo(mx,cy+17);ctx.strokeStyle=g.color;ctx.lineWidth=2.5;ctx.stroke();
+    if(Math.abs(mx-gx)>6){
+      const ay=cy-22,x1=Math.min(mx,gx)+2,x2=Math.max(mx,gx)-2;
+      ctx.beginPath();ctx.moveTo(x1,ay);ctx.lineTo(x2,ay);ctx.strokeStyle='#E85D24';ctx.lineWidth=2;ctx.stroke();
+      const tip=gx<mx?x1:x2,d=gx<mx?-1:1;
+      ctx.beginPath();ctx.moveTo(tip,ay);ctx.lineTo(tip-d*8,ay-4);ctx.lineTo(tip-d*8,ay+4);ctx.fillStyle='#E85D24';ctx.fill();
+    }
+  });
+}
+
+function drawD(st){
+  const cv=document.getElementById('dcv'),dpr=Math.min(devicePixelRatio||1,2);
+  const W=800,H=170;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const isTT=st.k===2;
+  const obs=isTT?st.t_stat:st.F;
+  const pdf=isTT?(x=>tPDF(x,st.df_w)):(x=>fPDF(x,st.df_b,st.df_w));
+  const xMax=Math.max(obs*2.8,isTT?5:8);
+  const xMin=isTT?-xMax:0;
+  let mP=0;for(let i=0;i<=300;i++){const x=xMin+i*(xMax-xMin)/300;mP=Math.max(mP,pdf(x));}
+  const PL=44,PR=16,PT=20,PB=28,pW=W-PL-PR,pH=H-PT-PB;
+  const tX=v=>PL+(v-xMin)/(xMax-xMin)*pW;
+  const tY=v=>PT+pH*(1-v/mP*.86);
+  const bl=PT+pH;
+  function shade(from,to){ctx.beginPath();ctx.moveTo(tX(from),bl);for(let i=0;i<=120;i++){const x=from+i*(to-from)/120;ctx.lineTo(tX(x),tY(pdf(x)));}ctx.lineTo(tX(to),bl);ctx.closePath();ctx.fillStyle='#E85D2430';ctx.fill();}
+  shade(obs,xMax);if(isTT)shade(xMin,-obs);
+  ctx.beginPath();for(let i=0;i<=400;i++){const x=xMin+i*(xMax-xMin)/400;i===0?ctx.moveTo(tX(x),tY(pdf(x))):ctx.lineTo(tX(x),tY(pdf(x)));}
+  ctx.strokeStyle='#378ADD';ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(PL,bl);ctx.lineTo(W-PR,bl);ctx.strokeStyle='rgba(80,80,78,.22)';ctx.lineWidth=1;ctx.stroke();
+  const ox=tX(obs);
+  ctx.beginPath();ctx.moveTo(ox,PT);ctx.lineTo(ox,bl);ctx.strokeStyle='#E85D24';ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);
+  if(isTT){ctx.beginPath();ctx.moveTo(tX(-obs),PT);ctx.lineTo(tX(-obs),bl);ctx.strokeStyle='#E85D2477';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);}
+  ctx.font='11px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.75)';ctx.textAlign='center';
+  const nt=6;for(let i=0;i<=nt;i++){const x=xMin+i*(xMax-xMin)/nt;ctx.fillText(x.toFixed(1),tX(x),H-5);}
+  ctx.fillStyle='#E85D24';ctx.font='500 12px system-ui,sans-serif';ctx.textAlign='left';
+  ctx.fillText(isTT?'t = '+obs.toFixed(2):'F = '+obs.toFixed(2),Math.min(ox+5,W-90),PT+11);
+  ctx.fillStyle='rgba(60,60,58,.75)';ctx.textAlign='right';ctx.font='11px system-ui,sans-serif';
+  ctx.fillText(isTT?'t(df='+st.df_w+')':'F(df\u2081='+st.df_b+', df\u2082='+st.df_w+')',W-PR-4,PT+12);
+  const pvX=Math.min(tX(obs+(xMax-obs)*.55),W-55);
+  ctx.fillStyle='#E85D24';ctx.font='500 11px system-ui,sans-serif';ctx.textAlign='center';
+  ctx.fillText('p = '+(st.pval<.001?'< .001':st.pval.toFixed(3)),pvX,bl-16);
+}
+
+const TASKS=[
+  {q:'Set the groups to 2 and drag the separation slider all the way to the left (minimum). What do you notice about the orange arrows? What is the t-statistic close to, and why?',h:'When groups completely overlap, the group means are almost identical to the grand mean — so the orange arrows (between-group distance) nearly disappear. The t-statistic drops close to 0 because the difference between means is tiny compared to the noise within each group.'},
+  {q:'Now slowly drag the separation slider to the right. Watch the p-value. At roughly what point does the result become significant (p < .05)? What changed visually in the dot plot?',h:'As separation increases, the orange arrows grow longer — the group means move further apart. Once the between-group spread is large enough relative to the within-group scatter, p drops below .05. You\'ll notice the shaded tail area on the distribution curve shrinks as F or t increases.'},
+  {q:'With 2 groups, note down the t-statistic. Now switch to 3 groups with the same separation. Look at the ANOVA table — is the F-ratio close to the square of your t-statistic? What does this tell you about the relationship between t and F?',h:'When there are only 2 groups, F = t\u00b2 exactly. ANOVA and the independent t-test are mathematically equivalent with 2 groups — the t-test is just a special case of ANOVA where you have one degree of freedom in the numerator.'},
+  {q:'With 3 groups and a medium separation, look at the SS breakdown bar. Which is larger — SS_between (orange) or SS_within (blue)? Now check the table: add SS_between + SS_within yourself. Does it equal SS_total?',h:'SS_total always equals SS_between + SS_within — this is how ANOVA partitions all variability in the data into "explained" (between) and "unexplained" (within) parts. It should add up exactly, every time, regardless of your settings.'},
+  {q:'Keep your settings the same and click "\u8635 New sample" five times. Does the p-value change each time? Does it sometimes flip from significant to not significant? Why does this happen?',h:'Yes — each new sample is a different random draw from the same population, so the exact t or F value shifts each time. This demonstrates sampling variability: in real research, your result partly depends on which particular participants happened to be selected. A p-value just above or below .05 is unreliable evidence.'},
+  {q:'Set 4 groups with the separation slider about one-third of the way up. Look at the F-distribution chart — describe what you see. What does the shaded area represent, and what would it mean if that area were very large (say, 0.60)?',h:'The shaded area is the p-value — the probability of getting an F-ratio this large (or larger) by chance if H\u2080 were true. If p = 0.60, there\'s a 60% chance of seeing a result this extreme just by random sampling — very weak evidence that the groups differ.'},
+  {q:'Using any group/separation combination, find a setting where the result is NOT significant (p \u2265 .05). Write down the values of SS_between, SS_within, and F. What is the visual story in the dot plot — what do you notice about the orange arrows and the blue bands?',h:'When the result is not significant, SS_within tends to be large relative to SS_between — the noise swamps the signal. In the dot plot, the blue within-group bands are wide and overlapping, and the orange arrows are short. The F-ratio will be close to 1 or below.'},
+  {q:'Switch to 3 groups. Why can\'t you just run three separate t-tests (A vs B, A vs C, B vs C) instead of a one-way ANOVA? Calculate the approximate inflated error rate yourself using: 1 \u2212 (0.95)^k, where k is the number of comparisons.',h:'With 3 comparisons: 1 \u2212 (0.95)\u00b3 = 1 \u2212 0.857 = 0.143, or about 14%. Your overall false-positive rate balloons from 5% to 14%. With 4 groups (6 comparisons): 1 \u2212 (0.95)\u2076 \u2248 26%. ANOVA keeps the rate at exactly 5% by testing all groups in one go.'},
+];
+
+function renderTasks(){
+  document.getElementById('tasks').innerHTML=TASKS.map((t,i)=>
+    '<div class="task" id="task'+i+'"><div class="trow"><span class="tnum" onclick="toggleDone('+i+')" title="Mark complete">'+(i+1)+'</span><div class="tbody">'+t.q+'<div><button class="hbtn" onclick="toggleHint('+i+')">Show hint</button></div><div class="thint" id="hint'+i+'">'+t.h+'</div></div></div></div>'
+  ).join('');
+}
+function toggleDone(i){document.getElementById('task'+i).classList.toggle('done');}
+function toggleHint(i){const h=document.getElementById('hint'+i);const o=h.classList.toggle('open');h.previousElementSibling.textContent=o?'Hide hint':'Show hint';}
+
+function upd(){
+  const st=calc(grps);
+  drawG(grps,st);drawD(st);
+  const pct=Math.max(2,Math.min(95,st.SS_b/st.SS_t*100));
+  document.getElementById('ssbar-b').style.width=pct+'%';
+  document.getElementById('ssbar-b').textContent='SS_b '+pct.toFixed(0)+'%';
+  document.getElementById('ssbar-w').textContent='SS_w '+(100-pct).toFixed(0)+'%';
+  document.getElementById('mssb').textContent=st.SS_b.toFixed(1);
+  document.getElementById('mssw').textContent=st.SS_w.toFixed(1);
+  document.getElementById('msst').textContent=st.SS_t.toFixed(1);
+  const isTT=st.k===2;
+  document.getElementById('ttlbl').textContent=isTT?'T-Test Summary Table':'ANOVA Summary Table';
+  document.getElementById('thstat').textContent=isTT?'t':'F';
+  document.getElementById('src1').textContent=isTT?'Between (treatment)':'Between groups';
+  document.getElementById('src2').textContent=isTT?'Within (error/residual)':'Within groups (error)';
+  document.getElementById('tss1').textContent=st.SS_b.toFixed(2);
+  document.getElementById('tss2').textContent=st.SS_w.toFixed(2);
+  document.getElementById('tsst').textContent=st.SS_t.toFixed(2);
+  document.getElementById('tdf1').textContent=st.df_b;
+  document.getElementById('tdf2').textContent=st.df_w;
+  document.getElementById('tdft').textContent=st.df_b+st.df_w;
+  document.getElementById('tms1').textContent=st.MS_b.toFixed(2);
+  document.getElementById('tms2').textContent=st.MS_w.toFixed(2);
+  document.getElementById('tstat').textContent=isTT?st.t_stat.toFixed(3):st.F.toFixed(3);
+  document.getElementById('tpval').textContent=st.pval<.001?'< .001':st.pval.toFixed(3);
+  document.getElementById('distsl').textContent=isTT?'T-Distribution \u2014 shaded tails = two-tailed p-value':'F-Distribution \u2014 shaded right tail = p-value';
+  document.getElementById('pvlbl').textContent=isTT?'Two-tailed p-value':'One-tailed p-value';
+  document.getElementById('mpval').textContent=st.pval<.001?'< 0.001':st.pval.toFixed(3);
+  const sig=st.pval<.05;
+  document.getElementById('psig').textContent=sig?'\u2713 Significant at \u03b1 = .05 \u2014 reject H\u2080':'\u2717 Not significant at \u03b1 = .05 \u2014 fail to reject H\u2080';
+  document.getElementById('psig').style.color=sig?'#0f6e56':'#73726c';
+  document.getElementById('tstlbl').textContent=isTT?'Independent T-Test':'One-Way ANOVA';
+  const feq=document.getElementById('fequiv');
+  if(isTT){feq.style.display='block';feq.innerHTML='<b>T-test \u2194 ANOVA link:</b> When k = 2, F = t\u00b2 exactly. Here t = '+st.t_stat.toFixed(3)+', so t\u00b2 = '+(st.t_stat**2).toFixed(3)+' \u2014 compare this to the F value in the table above.';}
+  else{feq.style.display='none';}
+  ['2','3','4'].forEach(n=>document.getElementById('b'+n).classList.toggle('on',+n===G));
+}
+
+function setG(n){G=n;grps=mkG(G,sep);upd();}
+function setSep(v){sep=v;grps=mkG(G,sep);upd();}
+function newSample(){grps=mkG(G,sep);upd();}
+grps=mkG(G,sep);renderTasks();upd();
+</script>
+</body>
+</html>
