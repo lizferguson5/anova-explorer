@@ -2,7 +2,7 @@
 
 An interactive, browser-based tool for biostatistics students to build a deep visual understanding of one-way ANOVA and the independent t-test — how they partition variance, when to use each, and what the F and t distributions actually mean.
 
-🔗 **[Live Demo](https://lizferguson5.github.io/anova-explorer/)**
+🔗 **[ANOVA App](https://lizferguson5.github.io/anova-explorer/)**
 
 ---
 
