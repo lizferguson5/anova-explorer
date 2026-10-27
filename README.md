@@ -1,8 +1,8 @@
-# ANOVA vs T-Test Explorer
+# ANOVA Explorer
 
 An interactive, browser-based tool for biostatistics students to build a deep visual understanding of one-way ANOVA and the independent t-test — how they partition variance, when to use each, and what the F and t distributions actually mean — plus a worked class example where students fill in the ANOVA table themselves.
 
-🔗 **[Live Demo](https://lizferguson5.github.io/anova-explorer/)**
+🔗 **[Launch ANOVA Explorer](https://lizferguson5.github.io/anova-explorer/)**
 
 ---
 
