@@ -7,30 +7,30 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{color-scheme:light;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4ef;color:#3d3d3a;padding:20px 16px 40px;max-width:860px;margin:0 auto;}
-h1{font-size:22px;font-weight:600;margin-bottom:3px;}
-h2{font-size:17px;font-weight:600;margin-bottom:6px;}
-.sub{font-size:13px;color:#73726c;margin-bottom:16px;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f4ef;color:#3d3d3a;padding:20px 16px 40px;max-width:1000px;margin:0 auto;}
+h1{font-size:26px;font-weight:600;margin-bottom:3px;}
+h2{font-size:20px;font-weight:600;margin-bottom:6px;}
+.sub{font-size:16px;color:#73726c;margin-bottom:16px;}
 .tabs{display:flex;gap:4px;border-bottom:1px solid #c2c1b9;margin-bottom:18px;flex-wrap:wrap;}
-.tab{padding:9px 16px;border:1px solid transparent;border-bottom:none;border-radius:8px 8px 0 0;background:none;font-size:14px;color:#73726c;cursor:pointer;margin-bottom:-1px;font-family:inherit;}
+.tab{padding:9px 16px;border:1px solid transparent;border-bottom:none;border-radius:8px 8px 0 0;background:none;font-size:17px;color:#73726c;cursor:pointer;margin-bottom:-1px;font-family:inherit;}
 .tab.on{background:#fff;border-color:#c2c1b9;color:#1e4f8c;font-weight:600;}
 .tab:hover:not(.on){color:#3d3d3a;}
 .pane{display:none;}
 .pane.on{display:block;}
-.cb{padding:7px 14px;border-radius:6px;border:0.5px solid #c2c1b9;background:#fff;color:#3d3d3a;font-size:13px;cursor:pointer;transition:background .12s;font-family:inherit;}
+.cb{padding:7px 14px;border-radius:6px;border:0.5px solid #c2c1b9;background:#fff;color:#3d3d3a;font-size:16px;cursor:pointer;transition:background .12s;font-family:inherit;}
 .cb.on{background:#dbeafe;color:#1e4f8c;border-color:#93c5fd;}
 .cb:hover:not(.on){background:#eeedea;}
 .cb.primary{background:#1e4f8c;color:#fff;border-color:#1e4f8c;}
 .cb.primary:hover{background:#163d6d;}
 .row{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px;}
-.sl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#73726c;margin-bottom:5px;}
+.sl{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#73726c;margin-bottom:5px;}
 .mc{background:#eeedea;border-radius:8px;padding:10px 13px;}
-.mclbl{font-size:11px;color:#73726c;margin-bottom:3px;}
-.mcval{font-size:17px;font-weight:500;}
-.micro{font-size:11px;color:#9c9a92;margin-top:2px;}
+.mclbl{font-size:13px;color:#73726c;margin-bottom:3px;}
+.mcval{font-size:20px;font-weight:500;}
+.micro{font-size:13px;color:#9c9a92;margin-top:2px;}
 .sec{margin-top:18px;}
 canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;background:#fff;}
-.at{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:8px;overflow:hidden;}
+.at{width:100%;border-collapse:collapse;font-size:16px;background:#fff;border-radius:8px;overflow:hidden;}
 .at th{font-weight:500;text-align:left;padding:7px 10px;color:#73726c;border-bottom:0.5px solid #ddddd5;background:#f5f4ef;}
 .at td{padding:7px 10px;border-bottom:0.5px solid #e8e8e0;color:#3d3d3a;font-variant-numeric:tabular-nums;}
 .at tbody tr:last-child td{font-weight:500;border:none;}
@@ -39,98 +39,98 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .task{background:#eeedea;border-radius:10px;padding:13px 15px;margin-bottom:8px;border-left:3px solid #c2c1b9;transition:border-color .15s;}
 .task.done{border-left-color:#1D9E75;}
-.tnum{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#fff;border:0.5px solid #c2c1b9;font-size:11px;font-weight:500;color:#73726c;margin-right:8px;flex-shrink:0;cursor:pointer;transition:all .15s;vertical-align:top;margin-top:2px;}
+.tnum{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#fff;border:0.5px solid #c2c1b9;font-size:13px;font-weight:500;color:#73726c;margin-right:8px;flex-shrink:0;cursor:pointer;transition:all .15s;vertical-align:top;margin-top:2px;}
 .task.done .tnum{background:#1D9E75;border-color:#1D9E75;color:#fff;}
 .trow{display:flex;align-items:flex-start;}
-.tbody{font-size:13px;color:#3d3d3a;line-height:1.6;flex:1;}
-.thint{display:none;font-size:12.5px;color:#5f5e58;margin-top:8px;padding:9px 11px;background:#fff;border-radius:6px;line-height:1.65;}
+.tbody{font-size:16px;color:#3d3d3a;line-height:1.6;flex:1;}
+.thint{display:none;font-size:15px;color:#5f5e58;margin-top:8px;padding:9px 11px;background:#fff;border-radius:6px;line-height:1.65;}
 .thint.open{display:block;}
-.hbtn{font-size:11.5px;color:#73726c;background:#fff;border:0.5px solid #c2c1b9;border-radius:5px;padding:4px 9px;cursor:pointer;margin-top:8px;display:inline-block;font-family:inherit;}
+.hbtn{font-size:14px;color:#73726c;background:#fff;border:0.5px solid #c2c1b9;border-radius:5px;padding:4px 9px;cursor:pointer;margin-top:8px;display:inline-block;font-family:inherit;}
 .hbtn:hover{color:#3d3d3a;background:#f5f4ef;}
-.badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:#fde7da;color:#a6431b;border-radius:4px;padding:2px 6px;margin-right:6px;vertical-align:1px;}
+.badge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:#fde7da;color:#a6431b;border-radius:4px;padding:2px 6px;margin-right:6px;vertical-align:1px;}
 .cmp{background:#eeedea;border-radius:12px;padding:13px 15px;}
-.cr{font-size:12px;color:#73726c;margin-bottom:5px;line-height:1.5;}
+.cr{font-size:14px;color:#73726c;margin-bottom:5px;line-height:1.5;}
 .cr b{color:#3d3d3a;font-weight:500;}
-.leg{display:flex;gap:14px;margin:8px 0 0;font-size:11px;color:#73726c;flex-wrap:wrap;}
+.leg{display:flex;gap:14px;margin:8px 0 0;font-size:13px;color:#73726c;flex-wrap:wrap;}
 .leg span{display:flex;align-items:center;gap:4px;}
-.note{font-size:12.5px;color:#5f5e58;background:#eeedea;padding:9px 12px;border-radius:8px;border-left:2px solid #93c5fd;line-height:1.6;}
+.note{font-size:15px;color:#5f5e58;background:#eeedea;padding:9px 12px;border-radius:8px;border-left:2px solid #93c5fd;line-height:1.6;}
 
 /* ---------- Class example tab ---------- */
 .scen{background:#fff;border:0.5px solid #c2c1b9;border-radius:12px;padding:16px 18px;margin-bottom:14px;}
-.scen p{font-size:14px;line-height:1.6;margin-bottom:6px;}
+.scen p{font-size:17px;line-height:1.6;margin-bottom:6px;}
 .scen .q{font-weight:600;color:#1e4f8c;}
 .dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
 .dcol{background:#f5f4ef;border-radius:8px;padding:10px;}
-.dcol input{width:100%;font:inherit;font-size:13px;font-weight:600;padding:5px 7px;border:0.5px solid #c2c1b9;border-radius:5px;margin-bottom:6px;background:#fff;}
-.dcol textarea{width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;padding:6px 7px;border:0.5px solid #c2c1b9;border-radius:5px;resize:vertical;min-height:64px;background:#fff;}
-.dmeta{font-size:11px;color:#73726c;margin-top:3px;}
-.derr{font-size:12px;color:#b4261a;margin-top:6px;}
+.dcol input{width:100%;font:inherit;font-size:16px;font-weight:600;padding:5px 7px;border:0.5px solid #c2c1b9;border-radius:5px;margin-bottom:6px;background:#fff;}
+.dcol textarea{width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16px;padding:6px 7px;border:0.5px solid #c2c1b9;border-radius:5px;resize:vertical;min-height:64px;background:#fff;}
+.dmeta{font-size:13px;color:#73726c;margin-top:3px;}
+.derr{font-size:14px;color:#b4261a;margin-top:6px;}
 .prog{display:flex;gap:3px;margin:14px 0 10px;}
 .prog div{flex:1;height:6px;border-radius:3px;background:#ddddd5;}
 .prog div.reached{background:#93c5fd;}
 .prog div.done{background:#1D9E75;}
-.twocol{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start;}
+.twocol{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start;}
 .side{position:sticky;top:10px;}
-.side .at{font-size:12px;}
+.side .at{font-size:14px;}
 .side .at td,.side .at th{padding:5px 7px;}
 .cell-new{animation:pop .6s ease;}
 @keyframes pop{0%{background:#fff3b0;}100%{background:transparent;}}
 .step{background:#fff;border:0.5px solid #c2c1b9;border-radius:12px;padding:15px 17px;margin-bottom:12px;border-left:4px solid #93c5fd;}
 .step.done{border-left-color:#1D9E75;}
 .sthead{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;}
-.stnum{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1e4f8c;}
+.stnum{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1e4f8c;}
 .step.done .stnum{color:#0f6e56;}
-.sttitle{font-size:15px;font-weight:600;}
-.stprompt{font-size:13.5px;line-height:1.65;margin-bottom:10px;}
-.formula{font-family:'Cambria Math','Times New Roman',serif;font-size:16px;background:#f5f4ef;border-radius:6px;padding:7px 12px;display:inline-block;margin:2px 0 8px;}
+.sttitle{font-size:18px;font-weight:600;}
+.stprompt{font-size:16px;line-height:1.65;margin-bottom:10px;}
+.formula{font-family:'Cambria Math','Times New Roman',serif;font-size:19px;background:#f5f4ef;border-radius:6px;padding:7px 12px;display:inline-block;margin:2px 0 8px;}
 .ins{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;}
-.inp label{display:block;font-size:11px;color:#73726c;margin-bottom:3px;}
-.inp input{width:110px;font:inherit;font-size:14px;padding:6px 8px;border:1px solid #c2c1b9;border-radius:6px;font-variant-numeric:tabular-nums;}
+.inp label{display:block;font-size:13px;color:#73726c;margin-bottom:3px;}
+.inp input{width:110px;font:inherit;font-size:17px;padding:6px 8px;border:1px solid #c2c1b9;border-radius:6px;font-variant-numeric:tabular-nums;}
 .inp input.ok{border-color:#1D9E75;background:#e6f5ef;}
 .inp input.close{border-color:#1D9E75;background:#eef8f3;}
 .inp input.bad{border-color:#d0573a;background:#fdf0eb;}
-.fb{font-size:12.5px;margin-top:8px;line-height:1.55;}
+.fb{font-size:15px;margin-top:8px;line-height:1.55;}
 .fb .good{color:#0f6e56;font-weight:600;}
 .fb .badt{color:#a6431b;font-weight:600;}
-.hw{display:none;font-size:13px;line-height:1.7;margin-top:10px;padding:10px 12px;border-radius:8px;}
+.hw{display:none;font-size:16px;line-height:1.7;margin-top:10px;padding:10px 12px;border-radius:8px;}
 .hw.open{display:block;}
 .hw.hint{background:#fff8e6;border:0.5px solid #f2d78a;}
 .hw.work{background:#eef4fb;border:0.5px solid #b9d3f2;}
-.hw .lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a6a10;margin-bottom:4px;}
+.hw .lbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a6a10;margin-bottom:4px;}
 .hw.work .lbl{color:#1e4f8c;}
-.dev{border-collapse:collapse;font-size:12.5px;margin:6px 10px 8px 0;display:inline-table;vertical-align:top;font-variant-numeric:tabular-nums;}
+.dev{border-collapse:collapse;font-size:15px;margin:6px 10px 8px 0;display:inline-table;vertical-align:top;font-variant-numeric:tabular-nums;}
 .dev th,.dev td{border:0.5px solid #c9c8c0;padding:3px 8px;text-align:right;background:#fff;}
 .dev th{background:#f5f4ef;font-weight:500;color:#5f5e58;}
-.dev caption{font-size:12px;font-weight:600;text-align:left;padding-bottom:3px;}
+.dev caption{font-size:14px;font-weight:600;text-align:left;padding-bottom:3px;}
 .dev .blank{color:#c2c1b9;}
 .stbtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;align-items:center;}
 .next{margin-left:auto;}
-.choice{display:block;font-size:13.5px;padding:7px 10px;border:0.5px solid #c2c1b9;border-radius:6px;margin-bottom:6px;cursor:pointer;background:#fff;}
+.choice{display:block;font-size:16px;padding:7px 10px;border:0.5px solid #c2c1b9;border-radius:6px;margin-bottom:6px;cursor:pointer;background:#fff;}
 .choice:hover{background:#f5f4ef;}
 .choice input{margin-right:8px;}
-.copybox{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#f5f4ef;border-radius:6px;padding:10px;white-space:pre-wrap;line-height:1.5;margin-top:8px;}
+.copybox{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;background:#f5f4ef;border-radius:6px;padding:10px;white-space:pre-wrap;line-height:1.5;margin-top:8px;}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;}
-.chk{font-size:12.5px;color:#5f5e58;display:flex;align-items:center;gap:5px;cursor:pointer;}
+.chk{font-size:15px;color:#5f5e58;display:flex;align-items:center;gap:5px;cursor:pointer;}
 
 /* worksheet */
-.progwrap{display:flex;align-items:center;gap:10px;margin:6px 0 8px;font-size:12px;color:#5f5e58;}
+.progwrap{display:flex;align-items:center;gap:10px;margin:6px 0 8px;font-size:14px;color:#5f5e58;}
 .progbar{flex:1;height:8px;border-radius:4px;background:#ddddd5;overflow:hidden;}
 .progbar div{height:100%;width:0;background:#1D9E75;transition:width .3s;}
-.howto{font-size:12.5px;color:#5f5e58;line-height:1.55;margin-bottom:12px;}
+.howto{font-size:15px;color:#5f5e58;line-height:1.55;margin-bottom:12px;}
 .ws{background:#fff;border:0.5px solid #c2c1b9;border-radius:12px;padding:15px 17px;margin-bottom:14px;}
 .ws.locked{background:#f0efe9;}
 .ws.locked .wshead{color:#9c9a92;}
-.wshead{font-size:15px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.wsn{display:inline-flex;width:24px;height:24px;border-radius:50%;background:#1e4f8c;color:#fff;font-size:12px;align-items:center;justify-content:center;flex-shrink:0;}
+.wshead{font-size:18px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.wsn{display:inline-flex;width:28px;height:28px;border-radius:50%;background:#1e4f8c;color:#fff;font-size:14px;align-items:center;justify-content:center;flex-shrink:0;}
 .ws.locked .wsn{background:#c2c1b9;}
 .tscroll{overflow-x:auto;}
-.wt{width:100%;border-collapse:collapse;font-size:14px;min-width:540px;}
+.wt{width:100%;border-collapse:collapse;font-size:17px;min-width:540px;}
 .wt th{font-weight:600;padding:8px;border:1px solid #c9c8c0;background:#eeedea;text-align:center;}
 .wt td{padding:5px;border:1px solid #c9c8c0;text-align:center;font-variant-numeric:tabular-nums;}
 .wt td.rl{text-align:left;padding-left:10px;font-weight:500;white-space:nowrap;}
 .wt td.given{color:#3d3d3a;font-weight:600;background:#f9f8f4;}
 .wt td.na{background:#ddddd5;}
-.ci{width:100%;min-width:62px;max-width:130px;font:inherit;font-size:15px;text-align:center;padding:7px 4px;border:1.5px solid #c2c1b9;border-radius:6px;background:#fff;font-variant-numeric:tabular-nums;}
+.ci{width:100%;min-width:62px;max-width:130px;font:inherit;font-size:18px;text-align:center;padding:7px 4px;border:1.5px solid #c2c1b9;border-radius:6px;background:#fff;font-variant-numeric:tabular-nums;}
 .ci:focus{outline:none;border-color:#1e4f8c;box-shadow:0 0 0 3px #93c5fd88;}
 .ci.ok,.ci.close{border-color:#1D9E75;background:#e6f5ef;}
 .ci.bad{border-color:#d0573a;background:#fdf0eb;}
@@ -138,21 +138,21 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 .wt th.allh{background:#e4e3dc;}
 .wt td.allc{background:#f4f3ee;}
 .vh{margin-top:14px;border-top:1px dashed #c9c8c0;padding-top:12px;}
-.vhhead{font-size:14px;font-weight:600;}
+.vhhead{font-size:17px;font-weight:600;}
 .hgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
 .hcol{background:#f9f8f4;border-radius:8px;padding:8px 8px 10px;}
-.hcap{font-size:12.5px;font-weight:600;margin-bottom:4px;}
+.hcap{font-size:15px;font-weight:600;margin-bottom:4px;}
 .hdev{width:100%;margin:0;display:table;}
-.hdev td,.hdev th{padding:3px 5px;}
-.hdev .ci.sq{font-size:13px;padding:4px 2px;min-width:0;max-width:none;}
-.hnext{font-size:12px;line-height:1.5;margin-top:6px;color:#3d3d3a;}
-.gmrow{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:14px;align-items:center;}
+.hdev td,.hdev th{padding:3px 5px;white-space:nowrap;}
+.hdev .ci.sq{font-size:16px;padding:4px 2px;min-width:0;max-width:none;}
+.hnext{font-size:14px;line-height:1.5;margin-top:6px;color:#3d3d3a;}
+.gmrow{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:17px;align-items:center;}
 .gmrow label{display:flex;align-items:center;gap:6px;white-space:nowrap;}
 .gmrow .ci{width:90px;}
 .help{margin-top:12px;background:#f9f8f4;border:1px solid #93c5fd;border-radius:10px;padding:12px 14px;}
-.hhead{display:flex;justify-content:space-between;gap:8px;font-size:14px;margin-bottom:6px;flex-wrap:wrap;}
-.hwhat{font-size:13.5px;line-height:1.6;}
-.mut{color:#73726c;font-size:12.5px;}
+.hhead{display:flex;justify-content:space-between;gap:8px;font-size:17px;margin-bottom:6px;flex-wrap:wrap;}
+.hwhat{font-size:16px;line-height:1.6;}
+.mut{color:#73726c;font-size:15px;}
 @media (max-width:760px){
   .twocol{grid-template-columns:1fr;}
   .side{position:static;}
@@ -160,7 +160,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 @media (max-width:560px){
   .hgrid{grid-template-columns:1fr;}
   .dgrid,.g3,.g2{grid-template-columns:1fr;}
-  .tab{padding:8px 10px;font-size:13px;}
+  .tab{padding:8px 10px;font-size:16px;}
   .inp input{width:96px;}
 }
 </style>
@@ -183,7 +183,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
   <div><div class="sl">Number of treatment groups</div><div style="display:flex;gap:4px;"><button class="cb on" id="b2" onclick="setG(2)">2 groups</button><button class="cb" id="b3" onclick="setG(3)">3 groups</button><button class="cb" id="b4" onclick="setG(4)">4 groups</button></div></div>
   <div style="flex:1;min-width:170px;"><div class="sl">True difference between neighbouring groups: <span id="sepval" style="color:#3d3d3a;">2.0 days</span></div><input type="range" min="0" max="6" value="2" id="sep" step="0.5" oninput="setSep(+this.value)" style="width:100%;"></div>
   <button class="cb" onclick="newSample()">&#8635; New sample</button>
-  <div style="margin-left:auto;text-align:right;"><div class="sl">Appropriate test</div><div id="tstlbl" style="font-size:15px;font-weight:500;color:#1e4f8c;">Independent T-Test</div></div>
+  <div style="margin-left:auto;text-align:right;"><div class="sl">Appropriate test</div><div id="tstlbl" style="font-size:18px;font-weight:500;color:#1e4f8c;">Independent T-Test</div></div>
 </div>
 
 <canvas id="cv"></canvas>
@@ -195,8 +195,8 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 
 <div class="sec">
   <div class="sl">Sum of Squares — SS<sub>total</sub> = SS<sub>between</sub> + SS<sub>within</sub></div>
-  <div style="display:flex;border-radius:8px;overflow:hidden;height:34px;font-size:12px;font-weight:500;margin-bottom:10px;">
-    <div id="ssbar-b" style="background:#E85D24bb;display:flex;align-items:center;justify-content:center;color:#fff;min-width:36px;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
+  <div style="display:flex;border-radius:8px;overflow:hidden;height:34px;font-size:14px;font-weight:500;margin-bottom:10px;">
+    <div id="ssbar-b" style="background:#E85D24bb;display:flex;align-items:center;justify-content:center;color:#fff;min-width:84px;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
     <div id="ssbar-w" style="background:#378ADDbb;display:flex;align-items:center;justify-content:center;color:#fff;flex:1;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
   </div>
   <div class="g3">
@@ -224,20 +224,20 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
   <canvas id="dcv"></canvas>
   <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
     <div class="mc" style="flex:0 0 auto;"><div class="mclbl">p-value</div><div class="mcval" style="color:#E85D24;" id="mpval">—</div></div>
-    <div id="psig" style="font-size:13px;font-weight:500;flex:1;"></div>
+    <div id="psig" style="font-size:16px;font-weight:500;flex:1;"></div>
   </div>
 </div>
 
 <div class="sec">
   <div class="sl">Student tasks — work through these in order</div>
-  <p style="font-size:12.5px;color:#73726c;margin-bottom:10px;">Click the numbered circle to mark a task complete. <span class="badge">Check-in</span> questions get answered in class (Nearpod / Canvas). Use the hint only after you've made a guess.</p>
+  <p style="font-size:15px;color:#73726c;margin-bottom:10px;">Click the numbered circle to mark a task complete. <span class="badge">Check-in</span> questions get answered in class (Nearpod / Canvas). Use the hint only after you've made a guess.</p>
   <div id="tasks"></div>
 </div>
 
 <div class="sec">
   <div class="g2">
     <div class="cmp">
-      <div style="font-size:13px;font-weight:500;color:#1e4f8c;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">Independent T-Test</div>
+      <div style="font-size:16px;font-weight:500;color:#1e4f8c;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">Independent T-Test</div>
       <div class="cr"><b>Groups:</b> Exactly 2</div>
       <div class="cr"><b>Question:</b> Is μ&#8321; &#8800; μ&#8322;?</div>
       <div class="cr"><b>Stat:</b> t = (x̄&#8321; &#8722; x̄&#8322;) / SE</div>
@@ -246,7 +246,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
       <div class="cr"><b>Post-hoc:</b> Not needed</div>
     </div>
     <div class="cmp">
-      <div style="font-size:13px;font-weight:500;color:#0f6e56;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">One-Way ANOVA</div>
+      <div style="font-size:16px;font-weight:500;color:#0f6e56;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">One-Way ANOVA</div>
       <div class="cr"><b>Groups:</b> 3 or more</div>
       <div class="cr"><b>Question:</b> Is at least one μ different?</div>
       <div class="cr"><b>Stat:</b> F = MS<sub>between</sub> / MS<sub>within</sub></div>
@@ -264,7 +264,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
     <h2>Which antibiotic clears the infection fastest?</h2>
     <p>Patients with a bacterial skin infection were randomly assigned to one of three antibiotics. Researchers recorded the <b>number of days until each patient's infection cleared</b> (fewer days = better). A few patients dropped out, so the groups are different sizes.</p>
     <p class="q">Is the mean number of days to recovery the same for all three antibiotics?</p>
-    <p style="font-size:13px;color:#5f5e58;margin:0;">Factor: antibiotic (3 groups) · Response: days until infection cleared · H₀: μ<sub>A</sub> = μ<sub>B</sub> = μ<sub>C</sub> · Hₐ: at least one mean is different</p>
+    <p style="font-size:16px;color:#5f5e58;margin:0;">Factor: antibiotic (3 groups) · Response: days until infection cleared · H₀: μ<sub>A</sub> = μ<sub>B</sub> = μ<sub>C</sub> · Hₐ: at least one mean is different</p>
 
     <div class="dgrid" id="dgrid"></div>
     <div id="derr" class="derr"></div>
@@ -348,7 +348,7 @@ let G=2,sep=2,grps=[];
 const C=['#378ADD','#1D9E75','#D85A30','#7F77DD'];
 const NM=['Antibiotic A','Antibiotic B','Antibiotic C','Antibiotic D'];
 const NPER=12,SDV=3,BASE=24;
-function mkG(n,s){return Array.from({length:n},(_,gi)=>{const nom=BASE-gi*s;const pts=Array.from({length:NPER},()=>({v:nom+gauss()*SDV,j:(Math.random()-.5)*12}));const mean=pts.reduce((a,p)=>a+p.v,0)/pts.length;const vr=pts.reduce((a,p)=>a+(p.v-mean)**2,0)/(pts.length-1);return{name:NM[gi],color:C[gi],pts,mean,vr};});}
+function mkG(n,s){return Array.from({length:n},(_,gi)=>{const nom=BASE-gi*s;const pts=Array.from({length:NPER},()=>({v:Math.max(0.5,nom+gauss()*SDV),j:(Math.random()-.5)*12}));const mean=pts.reduce((a,p)=>a+p.v,0)/pts.length;const vr=pts.reduce((a,p)=>a+(p.v-mean)**2,0)/(pts.length-1);return{name:NM[gi],color:C[gi],pts,mean,vr};});}
 
 function calc(gs){
   const N=gs.reduce((a,g)=>a+g.pts.length,0),k=gs.length;
@@ -369,20 +369,20 @@ function drawG(gs,st){
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height='auto';cv.style.aspectRatio=W+'/'+H;
   const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
   const allV=gs.flatMap(g=>g.pts.map(p=>p.v));
-  const lo=Math.floor(Math.min(...allV,0)/5)*5-2,hi=Math.ceil(Math.max(...allV)/5)*5+2;
-  const L=92,R=W-20,tX=v=>L+(v-lo)/(hi-lo)*(R-L);
+  const lo=Math.max(0,Math.floor(Math.min(...allV)/5)*5-2),hi=Math.ceil(Math.max(...allV)/5)*5+2;
+  const L=118,R=W-20,tX=v=>L+(v-lo)/(hi-lo)*(R-L);
   const axY=H-34,gx=tX(st.gm);
   ctx.beginPath();ctx.moveTo(gx,18);ctx.lineTo(gx,axY);ctx.strokeStyle='rgba(80,80,78,.3)';ctx.setLineDash([5,4]);ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='rgba(60,60,58,.8)';ctx.font='11px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Grand mean '+st.gm.toFixed(1),gx,12);
+  ctx.fillStyle='rgba(60,60,58,.8)';ctx.font='13px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Grand mean '+st.gm.toFixed(1),gx,12);
   // axis
   ctx.beginPath();ctx.moveTo(L,axY);ctx.lineTo(R,axY);ctx.strokeStyle='rgba(80,80,78,.35)';ctx.lineWidth=1;ctx.stroke();
   const step=(hi-lo)>40?10:5;
-  ctx.font='11px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.75)';
+  ctx.font='13px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.75)';
   for(let v=Math.ceil(lo/step)*step;v<=hi;v+=step){const x=tX(v);ctx.beginPath();ctx.moveTo(x,axY);ctx.lineTo(x,axY+4);ctx.stroke();ctx.fillText(v,x,axY+16);}
   ctx.fillText('Days until infection cleared',(L+R)/2,H-3);
   gs.forEach((g,gi)=>{
     const cy=48+gi*62,mx=tX(g.mean),sd=Math.sqrt(g.vr);
-    ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='right';ctx.fillStyle=g.color;ctx.fillText(g.name,L-12,cy+4);
+    ctx.font='600 14px system-ui,sans-serif';ctx.textAlign='right';ctx.fillStyle=g.color;ctx.fillText(g.name,L-12,cy+4);
     const bx1=tX(g.mean-sd),bx2=tX(g.mean+sd);
     ctx.fillStyle='#378ADD1c';ctx.strokeStyle='#378ADD40';ctx.lineWidth=1;
     ctx.beginPath();ctx.rect(bx1,cy-12,bx2-bx1,24);ctx.fill();ctx.stroke();
@@ -418,13 +418,13 @@ function drawF(cvId,F,d1,d2,showCrit){
   ctx.beginPath();for(let i=1;i<=400;i++){const x=i*xMax/400;i===1?ctx.moveTo(tX(x),tY(pdf(x))):ctx.lineTo(tX(x),tY(pdf(x)));}
   ctx.strokeStyle='#378ADD';ctx.lineWidth=2;ctx.stroke();ctx.restore();
   ctx.beginPath();ctx.moveTo(PL,bl);ctx.lineTo(W-PR,bl);ctx.strokeStyle='rgba(80,80,78,.3)';ctx.lineWidth=1;ctx.stroke();
-  ctx.font='11px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.75)';ctx.textAlign='center';
+  ctx.font='13px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.75)';ctx.textAlign='center';
   const nt=xMax>20?Math.ceil(xMax/10):(xMax>8?Math.ceil(xMax/2):Math.ceil(xMax));const stp=xMax>20?10:(xMax>8?2:1);
   for(let i=0;i<=nt;i++){const x=i*stp;if(x>xMax)break;ctx.fillText(x,tX(x),H-10);}
   if(showCrit){const cx=tX(crit);ctx.beginPath();ctx.moveTo(cx,PT+10);ctx.lineTo(cx,bl);ctx.strokeStyle='#7F77DD';ctx.lineWidth=1.5;ctx.setLineDash([2,3]);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#5a52b8';ctx.textAlign='center';ctx.fillText('critical F = '+crit.toFixed(2),cx,PT+4);}
   if(obs<xMax){const ox=tX(obs);ctx.beginPath();ctx.moveTo(ox,PT);ctx.lineTo(ox,bl);ctx.strokeStyle='#E85D24';ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle='#E85D24';ctx.font='600 12px system-ui,sans-serif';ctx.textAlign=ox>W-150?'right':'left';ctx.fillText('Your F = '+obs.toFixed(2),ox+(ox>W-150?-6:6),PT+(showCrit?24:10));}
-  ctx.fillStyle='rgba(60,60,58,.75)';ctx.textAlign='right';ctx.font='11px system-ui,sans-serif';
+    ctx.fillStyle='#E85D24';ctx.font='600 14px system-ui,sans-serif';ctx.textAlign=ox>W-150?'right':'left';ctx.fillText('Your F = '+obs.toFixed(2),ox+(ox>W-150?-6:6),PT+(showCrit?24:10));}
+  ctx.fillStyle='rgba(60,60,58,.75)';ctx.textAlign='right';ctx.font='13px system-ui,sans-serif';
   ctx.fillText('F(df₁ = '+d1+', df₂ = '+d2+')',W-PR-4,PT+(showCrit?44:12));
 }
 
@@ -663,7 +663,7 @@ function renderHelper(){
     h+='<table class="dev hdev"><tr><th>x</th><th>x − x̄</th><th>(x − x̄)²</th></tr>';
     g.x.forEach((v,j)=>{const k=gi+'_'+j,a=sq[k]||{v:'',st:''};
       h+='<tr><td>'+v+'</td><td>'+nice(v-g.mean)+'</td><td><input class="ci sq '+a.st+'" id="sq_'+k+'" value="'+a.v+'" inputmode="decimal" autocomplete="off" aria-label="'+g.name+', x = '+v+': squared deviation" onfocus="setFocus(\'var'+gi+'\')" onkeydown="if(event.key===\'Enter\'){event.preventDefault();checkSq('+gi+','+j+',true);}" onchange="checkSq('+gi+','+j+',false)"></td></tr>';});
-    h+='<tr><th colspan="2" style="text-align:right">Σ(x − x̄)² =</th><th id="sqsum'+gi+'">'+sumHtml(gi)+'</th></tr></table>';
+    h+='<tr><th colspan="2" style="text-align:right;white-space:nowrap">Sum =</th><th id="sqsum'+gi+'">'+sumHtml(gi)+'</th></tr></table>';
     h+='<div class="stbtns" style="margin-top:6px"><button class="hbtn" style="margin:0" onclick="fillSq('+gi+')">Fill the rest</button></div>';
     return h+'<div class="hnext" id="sqnext'+gi+'">'+nextHtml(gi)+'</div></div>';
   }).join('');
@@ -749,7 +749,7 @@ function renderPart4(open){
   if(b.dataset.drawn==='1'&&!tk.redraw){document.getElementById('fb_tk').innerHTML=tk.fb;document.getElementById('tkwork').style.display=tk.done?'':'none';return;}
   b.dataset.drawn='1';tk.redraw=false;
   b.innerHTML='<p class="stprompt">'+(S.p<.05?'ANOVA says <i>at least one</i> mean differs — but not which. ':'<b>Your ANOVA was not significant</b>, so normally you would stop here — post-hoc tests only follow a significant ANOVA. You can still look, for practice. ')+'Tick every pair you think is significantly different, then check against Tukey.</p><div style="margin-bottom:8px;">'+
-   S.pairs.map(pr=>'<span class="formula" style="font-size:14px;margin-right:6px;">'+S.g[pr.j].name+' − '+S.g[pr.i].name+' = '+f2(pr.diff)+' days</span>').join('')+'</div>'+
+   S.pairs.map(pr=>'<span class="formula" style="font-size:17px;margin-right:6px;">'+S.g[pr.j].name+' − '+S.g[pr.i].name+' = '+f2(pr.diff)+' days</span>').join('')+'</div>'+
    S.pairs.map((pr,k)=>'<label class="choice"><input type="checkbox" name="tk" value="'+k+'"'+(tk.sel[k]?' checked':'')+' onchange="tk.sel['+k+']=this.checked">'+S.g[pr.i].name+' vs '+S.g[pr.j].name+'</label>').join('')+
    '<div class="stbtns"><button class="cb primary" onclick="checkTk()">Check</button><button class="hbtn" style="margin:0" onclick="document.getElementById(\'tkhint\').classList.toggle(\'open\')">💡 Hint</button><button class="hbtn" style="margin:0" onclick="tk.done=true;tk.fb=\'\';updateStatus()">Show Tukey results</button></div><div class="fb" id="fb_tk">'+tk.fb+'</div>'+
    '<div class="hw hint" id="tkhint"><div class="lbl">Hint</div>Tukey compares each gap to the noise (MS(W) = '+f2(S.MSW)+') and keeps the overall α at .05. With unequal group sizes, each pair gets its own yardstick — the <b>minimum significant difference</b>. If a gap (ignore the sign) is bigger than its yardstick, that pair is different:<br>'+S.pairs.map(pr=>S.g[pr.i].name+' vs '+S.g[pr.j].name+': gap '+f2(Math.abs(pr.diff))+' vs. yardstick '+f2(pr.msd)).join('<br>')+'</div>'+
@@ -767,7 +767,7 @@ function renderPart5(open){
   if(!open){b.innerHTML='<p class="mut">Unlocks after the post-hoc test.</p>';return;}
   if(b.dataset.drawn==='1')return;b.dataset.drawn='1';
   const sig=S.pairs.filter(p=>p.p<.05);
-  b.innerHTML='<p class="stprompt">Put it in words a doctor could use. Copy your complete result into Nearpod / Canvas, then write your conclusion in one or two sentences.</p><div class="copybox" id="resulttext">'+resultsText()+'</div><div class="toolbar"><button class="cb primary" onclick="copyResults()">Copy results</button><button class="cb" onclick="downloadCSV()">⬇ Data for jamovi (.csv)</button><span id="copied" style="font-size:12px;color:#0f6e56;"></span></div>'+
+  b.innerHTML='<p class="stprompt">Put it in words a doctor could use. Copy your complete result into Nearpod / Canvas, then write your conclusion in one or two sentences.</p><div class="copybox" id="resulttext">'+resultsText()+'</div><div class="toolbar"><button class="cb primary" onclick="copyResults()">Copy results</button><button class="cb" onclick="downloadCSV()">⬇ Data for jamovi (.csv)</button><span id="copied" style="font-size:14px;color:#0f6e56;"></span></div>'+
    '<div class="hw hint open" style="margin-top:12px;"><div class="lbl">Sentence starter</div>A one-way ANOVA showed that mean days to recovery '+(S.p<.05?'<b>differed</b>':'<b>did not differ significantly</b>')+' among the three antibiotics, F('+S.dfB+', '+S.dfW+') = '+f2(S.F)+', p '+(S.p<.001?'< .001':'= '+fmtP(S.p))+'. '+(S.p<.05?'Tukey post-hoc tests showed that … (which antibiotics differed, and by how many days?)':'')+'</div>'+
    '<div class="hw work open"><div class="lbl">Think about it</div>Which antibiotic would you prescribe? Two antibiotics weren\'t significantly different — does that mean they work equally well? What else would a doctor want to know (side effects, cost, antibiotic resistance)?</div>';
 }
