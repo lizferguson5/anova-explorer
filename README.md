@@ -1,6 +1,6 @@
 # ANOVA Explorer
 
-An interactive, browser-based tool for biostatistics students to build a deep visual understanding of one-way ANOVA and the independent t-test — how they partition variance, when to use each, and what the F and t distributions actually mean — plus a worked class example where students fill in the ANOVA table themselves.
+An interactive, browser-based tool that helps biostatistics students see where the variation in a one-way ANOVA comes from (**total**, **between-group** and **within-group / residual error**), plus a worked class example where students fill in the ANOVA table themselves.
 
 🔗 **[Launch ANOVA Explorer](https://lizferguson5.github.io/anova-explorer/)**
 
@@ -8,14 +8,14 @@ An interactive, browser-based tool for biostatistics students to build a deep vi
 
 ## Overview
 
-Students often learn ANOVA as a formula to apply rather than a concept to understand. This tool makes the logic concrete: you can see the between-group signal and within-group noise drawn directly on the data, watch the F-ratio and p-value respond in real time as you move a slider, and compare the t-test and ANOVA side by side to understand when — and why — they are mathematically identical.
+Students often learn ANOVA as a formula to apply rather than a concept to understand, and many mix up between-group, within-group, residual and error variation. This tool makes the sources of variation visible: every patient's deviation is drawn as a line, color-coded by source, and animated so students can watch the total variation split into a between-group piece and a within-group (residual) piece.
 
 The app has two tabs:
 
-1. **Explorer: ANOVA vs t-test** — simulated antibiotic-trial data with sliders and guided tasks.
+1. **Sources of variation** — an animated, step-by-step walkthrough of total, between-group and within-group (residual / error) variation, followed by a "Try it yourself" playground.
 2. **Class example: Antibiotic trial** — an in-app worksheet where students calculate the summary statistics and the full ANOVA table by hand, with instant checking and step-by-step help.
 
-Everything is computed live in the browser. No software installation required.
+Both tabs use the same 18 patients, so the variation students see in Tab 1 is exactly what they calculate in Tab 2. Everything is computed live in the browser. No software installation required.
 
 ---
 
@@ -26,7 +26,7 @@ Both tabs use the same scenario: **patients with a bacterial skin infection were
 - **Factor:** antibiotic (A, B, C) · **Response:** days until infection cleared
 - **H₀:** μ<sub>A</sub> = μ<sub>B</sub> = μ<sub>C</sub> · **Hₐ:** at least one mean is different
 
-### Class example data (Tab 2)
+### Class example data (both tabs)
 
 The numbers are invented for teaching. They were chosen so the hand calculations come out to whole numbers, and the group sizes are unequal (a few patients "dropped out") so the grand mean has to be weighted by n.
 
@@ -42,31 +42,37 @@ The numbers are invented for teaching. They were chosen so the hand calculations
 
 Students (or instructors) can replace these numbers with their own data — any three groups with at least two values each — and the whole worksheet recalculates.
 
-### Explorer data (Tab 1)
+### Playground data (Tab 1)
 
-Randomly simulated each time: 12 patients per antibiotic, average recovery time starting at 24 days, patient-to-patient SD ≈ 3 days. The slider sets the true difference (0–6 days) between neighbouring antibiotics.
+The "Try it yourself" sliders rescale the class data rather than generating new random data. One slider stretches or shrinks each group mean's distance from the grand mean (the between-group signal); the other stretches or shrinks each patient's distance from their own group mean (the within-group noise). At the default settings the playground shows the class data exactly. If stretching would push recovery times below zero, all values are shifted up together, which changes the grand mean but none of the sums of squares.
 
 ---
 
 ## What the Tool Does
 
-### Tab 1 — Explorer
+### Tab 1 — Sources of variation
 
-| Control | What it does |
-|---|---|
-| **2 / 3 / 4 groups** | Switches between an independent t-test (2 groups) and one-way ANOVA (3–4 groups). The table, distribution plot, and appropriate-test label update automatically. |
-| **True difference slider** | Sets how far apart the antibiotics' true mean recovery times are (the signal). Dragging right increases between-group variance and grows the F-ratio. |
-| **New sample** | Redraws random patients with the same settings — shows how results vary across samples from the same population. |
+Three color-coded cards define the sources, with the alternative names students will meet:
 
-**Dot plot** — every patient's recovery time by antibiotic, with group means (colored bars), ±1 SD spread (blue bands), the grand mean (dashed line), and orange arrows showing each group mean's distance from the grand mean (the between-group component).
+| Source | Color | What it measures | Also called |
+|---|---|---|---|
+| **Total** | gray | each patient's distance from the grand mean | |
+| **Between groups** | orange | each group mean's distance from the grand mean (explained by which antibiotic) | treatment, among-groups, signal |
+| **Within groups** | blue | each patient's distance from their own group mean (not explained by the antibiotic) | **residual**, **error**, noise |
 
-**SS breakdown bar** — proportion of total variation that is SS_between (signal) vs. SS_within (noise).
+Group colors (purple, green, magenta) are deliberately different from the gray / orange / blue line colors so the two are never confused.
 
-**ANOVA summary table** — SS, df, MS, F and p-value. With 2 groups, a callout shows the matching t-test and that t² = F.
+**Animated walkthrough (7 steps).** Each step plays a short animation with a prompt telling students what to watch, and a running readout of the sums of squares. Use **Back / Next / Replay**, the step dots, or the **← →** arrow keys when projecting.
 
-**F-distribution plot** — the observed F marked, with the p-value shaded as the right-tail area.
+1. **Every patient is different:** all 18 patients mixed together, with the grand mean (10 days) drawn across.
+2. **Total variation:** gray lines grow from the grand mean to each patient; SS(T) counts up to 320.
+3. **Sort the patients by antibiotic:** dots animate into their three groups and the group means appear.
+4. **Between groups (the signal):** dots slide onto their group mean ("pretend every patient got exactly their group's average"); orange lines show each group mean's distance from the grand mean; SS(B) = 6(3)² + 7(1)² + 5(−5)² = 186.
+5. **Within groups (residual error):** dots slide back to their real values; blue lines show each patient's distance from their own group mean; SS(W) = 40 + 54 + 40 = 134.
+6. **One patient, split in two:** a single patient (17 days on Antibiotic A) is highlighted and their total deviation (+7) is drawn next to its two pieces, between (+3) and within (+4).
+7. **Add it all up and compare:** SS(T) 320 = SS(B) 186 + SS(W) 134 as a stacked bar, then MS(B), MS(W) and F = 10.41.
 
-**T-Test vs. ANOVA comparison panel** — when to use each test, the test statistic, degrees of freedom, and post-hoc options.
+**Try it yourself.** Two sliders (*how different the antibiotics are* and *how much patients vary on the same antibiotic*) and toggles for the total, between and within lines. A stacked bar shows what share of the total variation is between vs. within, with a live ANOVA table (SS, df, MS, F, p) and a plain-language verdict. Three short "Try" prompts guide what to drag and what to watch.
 
 ### Tab 2 — Class example (in-app worksheet)
 
@@ -88,20 +94,6 @@ After the tables, three more parts unlock in order:
 
 ---
 
-## Student Tasks (Tab 1)
-
-The Explorer includes **9 guided tasks**, each with an optional hint. Tasks marked *Check-in* are designed for answers to be collected in class (Nearpod / Canvas).
-
-1. What happens to the test statistic when the antibiotics truly don't differ? How often is p < .05 anyway?
-2. How large a true difference is needed before results are significant most of the time?
-3. *Check-in:* Square t and compare it to F with 2 groups — what does this say about the t-test and ANOVA?
-4. Confirm that SS_between + SS_within = SS_total.
-5. *Check-in:* Click "New sample" five times — does the conclusion change? What does that mean for a single trial?
-6. Interpret the shaded area on the F-distribution.
-7. Find a non-significant result and describe what the dot plot looks like when noise swamps signal.
-8. *Check-in:* Calculate the inflated Type I error rate from running multiple t-tests instead of ANOVA.
-9. *After Tab 2:* Use a true difference of 2 days to explore power — does "not significant" mean "no difference"?
-
 ---
 
 ## Companion Document
@@ -111,21 +103,19 @@ The Explorer includes **9 guided tasks**, each with an optional hint. Tasks mark
 - the antibiotic-trial scenario and data
 - blank summary-statistics and ANOVA tables to fill in by hand, with an All patients column for N and the grand mean (matching the app)
 - the grand-mean formula
-- four shaded **Nearpod check-in** questions placed at the matching points in the lecture (hypotheses, grand mean, decision, post-hoc)
+- six shaded **Nearpod check-in** questions placed at the matching points in the lecture: hypotheses, sources of variation (two questions on between vs. within / residual error), grand mean, decision, and post-hoc
 - a pointer back to Tab 2 for hints and worked solutions
 
 ---
 
 ## Key Concepts Covered
 
-- **Partitioning variance:** SS_total = SS_between + SS_within
+- **Sources of variation:** total, between-group (treatment / signal) and within-group (residual / error / noise), and that "within", "residual" and "error" name the same thing
+- **Partitioning variation:** each patient's deviation splits as (x − x̿) = (x̄ − x̿) + (x − x̄), so SS(T) = SS(B) + SS(W)
 - **Summary statistics by hand:** mean, variance (dividing by n − 1), standard deviation, weighted grand mean
-- **The F-ratio:** mean square between ÷ mean square within (signal ÷ noise)
+- **The F-ratio:** MS(B) ÷ MS(W), between-group signal compared with residual error
 - **Degrees of freedom** for between-group (k − 1) and within-group (N − k) sources
-- **The F and t distributions** and how the p-value is read as a tail area
-- **The t-test as a special case of ANOVA** (F = t² when df₁ = 1)
-- **Type I error inflation** from multiple comparisons and why ANOVA is the solution
-- **Sampling variability and power** — why p-values shift across samples, and why "not significant" ≠ "no effect"
+- **The F distribution** and how the p-value is read as a tail area
 - **Tukey post-hoc tests** after a significant ANOVA, and the equal-variance assumption check
 
 ---
@@ -134,7 +124,7 @@ The Explorer includes **9 guided tasks**, each with an optional hint. Tasks mark
 
 | File | What it is |
 |---|---|
-| `index.html` | The app (served at the Live Demo link) |
+| `index.html` | The app (served at the Launch ANOVA Explorer link) |
 | `One_Way_Anova_Doc.docx` | Printable class-example handout with check-in questions |
 | `LICENSE` | MIT license |
 

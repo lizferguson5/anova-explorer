@@ -153,11 +153,53 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 .hhead{display:flex;justify-content:space-between;gap:8px;font-size:17px;margin-bottom:6px;flex-wrap:wrap;}
 .hwhat{font-size:16px;line-height:1.6;}
 .mut{color:#73726c;font-size:15px;}
+
+/* sources of variation */
+.srcgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.src{background:#fff;border:0.5px solid #c2c1b9;border-top:4px solid;border-radius:10px;padding:11px 13px;}
+.srch{font-size:17px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.swl{display:inline-block;width:20px;height:4px;border-radius:2px;flex-shrink:0;}
+.srcd{font-size:15px;line-height:1.5;}
+.aka{font-size:14px;color:#5f5e58;margin-top:6px;}
+.srcf{font-family:'Cambria Math','Times New Roman',serif;font-size:17px;margin-top:6px;color:#3d3d3a;}
+.story{background:#fff;border:0.5px solid #c2c1b9;border-radius:12px;padding:16px 18px;margin-bottom:16px;}
+.sthead2{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+.scprompt{font-size:17px;line-height:1.6;margin-bottom:12px;min-height:5.2em;}
+.scread{margin-top:10px;min-height:64px;}
+.rcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+.rc{background:#f5f4ef;border-left:4px solid;border-radius:8px;padding:8px 11px;}
+.rcl{font-size:13px;color:#5f5e58;}
+.rcv{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;}
+.rcx{font-size:13px;color:#5f5e58;line-height:1.45;}
+.rtxt{font-size:16px;line-height:1.6;margin-top:6px;}
+.rtxt.big{font-size:18px;font-family:'Cambria Math','Times New Roman',serif;}
+.rbar,.pbar{display:flex;height:38px;border-radius:8px;overflow:hidden;background:#eeedea;font-size:14px;font-weight:600;color:#fff;}
+.rbar div,.pbar div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;transition:width .3s;}
+#rbB,#pbB{background:#E85D24dd;}#rbW,#pbW{background:#378ADDdd;}
+.rbar span{transition:opacity .3s;}
+.scnav{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.scnav .cb{font-size:15px;}
+.cb:disabled{opacity:.4;cursor:default;}
+.scdots{display:flex;gap:6px;flex:1;justify-content:center;}
+.scdot{width:13px;height:13px;border-radius:50%;border:1.5px solid #93c5fd;background:#fff;cursor:pointer;padding:0;}
+.scdot.past{background:#93c5fd;}
+.scdot.on{background:#1e4f8c;border-color:#1e4f8c;}
+.prow{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:10px;}
+.pctl input[type=range]{width:100%;}
+.sends{display:flex;justify-content:space-between;font-size:13px;color:#73726c;}
+.ptog{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+.tg{font-size:15px;}
+.pverdict{font-size:16px;margin-top:10px;line-height:1.5;}
+.tryit{margin-top:12px;background:#f5f4ef;border-radius:8px;padding:10px 13px;font-size:15px;line-height:1.7;}
 @media (max-width:760px){
+  .srcgrid,.rcards{grid-template-columns:1fr;}
+  .prow{grid-template-columns:1fr;}
   .twocol{grid-template-columns:1fr;}
   .side{position:static;}
 }
 @media (max-width:560px){
+  .scprompt{font-size:16px;min-height:0;}
+  .scdots{order:5;flex-basis:100%;}
   .hgrid{grid-template-columns:1fr;}
   .dgrid,.g3,.g2{grid-template-columns:1fr;}
   .tab{padding:8px 10px;font-size:16px;}
@@ -168,92 +210,85 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 <body>
 
 <h1>ANOVA Explorer</h1>
-<p class="sub">BIOL 200 · One-way ANOVA — signal vs. noise, the ANOVA table, and a worked antibiotic-trial example.</p>
+<p class="sub">BIOL 200 · One-way ANOVA: where the variation comes from (between, within and residual), plus a worked antibiotic-trial example.</p>
 
 <div class="tabs" role="tablist">
-  <button class="tab on" id="tab-ex" onclick="showTab('ex')">① Explorer: ANOVA vs t-test</button>
+  <button class="tab on" id="tab-ex" onclick="showTab('ex')">① Sources of variation</button>
   <button class="tab" id="tab-cl" onclick="showTab('cl')">② Class example: Antibiotic trial</button>
 </div>
 
 <!-- ======================= TAB 1: EXPLORER ======================= -->
 <section class="pane on" id="pane-ex">
-<div class="note" style="margin-bottom:14px;">Imagine an antibiotic trial: each dot is one patient's <b>number of days until their infection cleared</b>. The slider sets how far apart the <i>true</i> average recovery times of the antibiotics are; every patient also varies randomly (SD ≈ 3 days).</div>
+<div class="note" style="margin-bottom:14px;">The same antibiotic trial as tab ②: 18 patients, three antibiotics, and the <b>number of days until each infection cleared</b>. Patients don't all recover in the same number of days. ANOVA asks <b>where that variation comes from</b> and splits it into two sources.</div>
 
-<div class="row">
-  <div><div class="sl">Number of treatment groups</div><div style="display:flex;gap:4px;"><button class="cb on" id="b2" onclick="setG(2)">2 groups</button><button class="cb" id="b3" onclick="setG(3)">3 groups</button><button class="cb" id="b4" onclick="setG(4)">4 groups</button></div></div>
-  <div style="flex:1;min-width:170px;"><div class="sl">True difference between neighbouring groups: <span id="sepval" style="color:#3d3d3a;">2.0 days</span></div><input type="range" min="0" max="6" value="2" id="sep" step="0.5" oninput="setSep(+this.value)" style="width:100%;"></div>
-  <button class="cb" onclick="newSample()">&#8635; New sample</button>
-  <div style="margin-left:auto;text-align:right;"><div class="sl">Appropriate test</div><div id="tstlbl" style="font-size:18px;font-weight:500;color:#1e4f8c;">Independent T-Test</div></div>
-</div>
-
-<canvas id="cv"></canvas>
-<div class="leg">
-  <span><span style="width:16px;height:2px;background:rgba(80,80,78,.35);display:inline-block;"></span>Grand mean</span>
-  <span><span style="width:16px;height:3px;background:#E85D24;border-radius:2px;display:inline-block;"></span>Between-group (signal)</span>
-  <span><span style="width:16px;height:8px;background:#378ADD30;border:1px solid #378ADD60;display:inline-block;"></span>Within-group spread, ±1 SD (noise)</span>
-</div>
-
-<div class="sec">
-  <div class="sl">Sum of Squares — SS<sub>total</sub> = SS<sub>between</sub> + SS<sub>within</sub></div>
-  <div style="display:flex;border-radius:8px;overflow:hidden;height:34px;font-size:14px;font-weight:500;margin-bottom:10px;">
-    <div id="ssbar-b" style="background:#E85D24bb;display:flex;align-items:center;justify-content:center;color:#fff;min-width:84px;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
-    <div id="ssbar-w" style="background:#378ADDbb;display:flex;align-items:center;justify-content:center;color:#fff;flex:1;transition:width .35s;padding:0 6px;white-space:nowrap;"></div>
+<div class="srcgrid">
+  <div class="src" style="border-top-color:#8a8984;">
+    <div class="srch"><span class="swl" style="background:#8a8984"></span>Total variation</div>
+    <div class="srcd">Each patient's distance from the <b>grand mean</b> (all patients together).</div>
+    <div class="srcf">SS(T) = SS(B) + SS(W)</div>
   </div>
-  <div class="g3">
-    <div class="mc"><div class="mclbl">SS<sub>between</sub></div><div class="mcval" style="color:#E85D24;" id="mssb">—</div><div class="micro">Signal: how far group means sit from the grand mean</div></div>
-    <div class="mc"><div class="mclbl">SS<sub>within</sub></div><div class="mcval" style="color:#378ADD;" id="mssw">—</div><div class="micro">Noise: how far patients sit from their own group mean</div></div>
-    <div class="mc"><div class="mclbl">SS<sub>total</sub></div><div class="mcval" id="msst">—</div><div class="micro">SS<sub>between</sub> + SS<sub>within</sub></div></div>
+  <div class="src" style="border-top-color:#E85D24;">
+    <div class="srch" style="color:#c2491b"><span class="swl" style="background:#E85D24"></span>Between groups</div>
+    <div class="srcd">Each <b>group's mean</b> compared with the grand mean: the part explained by <i>which antibiotic</i> a patient got.</div>
+    <div class="aka">Also called: <b>treatment</b> · among-groups · signal</div>
+    <div class="srcf">SS(B)</div>
+  </div>
+  <div class="src" style="border-top-color:#378ADD;">
+    <div class="srch" style="color:#1e6bb8"><span class="swl" style="background:#378ADD"></span>Within groups</div>
+    <div class="srcd">Each patient compared with <b>their own group's mean</b>: differences the antibiotic can't explain.</div>
+    <div class="aka">Also called: <b>residual</b> · <b>error</b> · noise</div>
+    <div class="srcf">SS(W)</div>
   </div>
 </div>
 
-<div class="sec">
-  <div class="sl">ANOVA Summary Table</div>
-  <table class="at">
+<div class="story" id="story">
+  <div class="sthead2"><span class="stnum" id="scnum">Step 1 of 7</span><span class="sttitle" id="sctitle"></span></div>
+  <p class="scprompt" id="scprompt"></p>
+  <canvas id="scv" role="img" aria-label="Animated dot plot of the 18 patients' recovery times, showing total, between-group and within-group variation"></canvas>
+  <div class="scread" id="scread"></div>
+  <div class="scnav">
+    <button class="cb" id="scback" onclick="goScene(scene-1)">← Back</button>
+    <button class="cb" onclick="goScene(scene)">↻ Replay</button>
+    <div class="scdots" id="scdots"></div>
+    <button class="cb primary" id="scnext" onclick="goScene(scene+1)">Next →</button>
+  </div>
+  <div class="micro" style="margin-top:6px;">Tip for projecting: the ← and → arrow keys step through too.</div>
+</div>
+
+<div class="ws" id="play">
+  <div class="wshead"><span class="wsn">▶</span> Try it yourself</div>
+  <div class="prow">
+    <div class="pctl">
+      <div class="sl">How different the antibiotics are <span class="mut" id="aval"></span></div>
+      <input type="range" id="sa" min="0" max="1.6" step="0.05" value="1" oninput="drawPlay()">
+      <div class="sends"><span>all the same</span><span>very different</span></div>
+    </div>
+    <div class="pctl">
+      <div class="sl">How much patients vary on the same antibiotic <span class="mut" id="bval"></span></div>
+      <input type="range" id="sb" min="0.25" max="2" step="0.05" value="1" oninput="drawPlay()">
+      <div class="sends"><span>very consistent</span><span>very variable</span></div>
+    </div>
+  </div>
+  <div class="ptog">
+    <span class="sl" style="margin:0 4px 0 0;">Show lines:</span>
+    <label class="chk tg"><input type="checkbox" id="tT" onchange="drawPlay()"><span class="swl" style="background:#8a8984"></span>Total</label>
+    <label class="chk tg"><input type="checkbox" id="tB" checked onchange="drawPlay()"><span class="swl" style="background:#E85D24"></span>Between</label>
+    <label class="chk tg"><input type="checkbox" id="tW" checked onchange="drawPlay()"><span class="swl" style="background:#378ADD"></span>Within (residual)</label>
+    <span style="flex:1"></span>
+    <button class="cb" onclick="resetPlay()">Reset to class data</button>
+  </div>
+  <canvas id="pcv" role="img" aria-label="Dot plot of patients' recovery times that responds to the sliders"></canvas>
+  <div class="sl" style="margin-top:14px;">Where the total variation comes from</div>
+  <div class="pbar"><div id="pbB"></div><div id="pbW"></div></div>
+  <table class="at" style="margin-top:10px;">
     <thead><tr><th>Source</th><th>SS</th><th>df</th><th>MS</th><th>F</th><th>p-value</th></tr></thead>
-    <tbody>
-      <tr><td style="color:#E85D24;">Between groups</td><td id="tss1">—</td><td id="tdf1">—</td><td id="tms1">—</td><td id="tstat">—</td><td id="tpval">—</td></tr>
-      <tr><td style="color:#378ADD;">Within groups (error)</td><td id="tss2">—</td><td id="tdf2">—</td><td id="tms2">—</td><td class="na"></td><td class="na"></td></tr>
-      <tr><td>Total</td><td id="tsst">—</td><td id="tdft">—</td><td class="na"></td><td class="na"></td><td class="na"></td></tr>
-    </tbody>
+    <tbody id="ptab"></tbody>
   </table>
-  <div id="fequiv" class="note" style="display:none;margin-top:8px;"></div>
-</div>
-
-<div class="sec">
-  <div class="sl" id="distsl">F-Distribution — shaded right tail = p-value</div>
-  <canvas id="dcv"></canvas>
-  <div style="display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;">
-    <div class="mc" style="flex:0 0 auto;"><div class="mclbl">p-value</div><div class="mcval" style="color:#E85D24;" id="mpval">—</div></div>
-    <div id="psig" style="font-size:16px;font-weight:500;flex:1;"></div>
-  </div>
-</div>
-
-<div class="sec">
-  <div class="sl">Student tasks — work through these in order</div>
-  <p style="font-size:15px;color:#73726c;margin-bottom:10px;">Click the numbered circle to mark a task complete. <span class="badge">Check-in</span> questions get answered in class (Nearpod / Canvas). Use the hint only after you've made a guess.</p>
-  <div id="tasks"></div>
-</div>
-
-<div class="sec">
-  <div class="g2">
-    <div class="cmp">
-      <div style="font-size:16px;font-weight:500;color:#1e4f8c;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">Independent T-Test</div>
-      <div class="cr"><b>Groups:</b> Exactly 2</div>
-      <div class="cr"><b>Question:</b> Is μ&#8321; &#8800; μ&#8322;?</div>
-      <div class="cr"><b>Stat:</b> t = (x̄&#8321; &#8722; x̄&#8322;) / SE</div>
-      <div class="cr"><b>df:</b> N &#8722; 2</div>
-      <div class="cr"><b>Note:</b> F = t&#178; when there are 2 groups</div>
-      <div class="cr"><b>Post-hoc:</b> Not needed</div>
-    </div>
-    <div class="cmp">
-      <div style="font-size:16px;font-weight:500;color:#0f6e56;padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid #ddddd5;">One-Way ANOVA</div>
-      <div class="cr"><b>Groups:</b> 3 or more</div>
-      <div class="cr"><b>Question:</b> Is at least one μ different?</div>
-      <div class="cr"><b>Stat:</b> F = MS<sub>between</sub> / MS<sub>within</sub></div>
-      <div class="cr"><b>df:</b> (k &#8722; 1, N &#8722; k)</div>
-      <div class="cr"><b>Note:</b> One test keeps α at .05</div>
-      <div class="cr"><b>Post-hoc:</b> Tukey (equal var.), Games-Howell</div>
-    </div>
+  <div id="pverdict" class="pverdict"></div>
+  <div class="tryit">
+    <div><b>Try:</b> drag the first slider all the way to <i>all the same</i>. Watch the orange lines and F.</div>
+    <div><b>Try:</b> drag the second slider to <i>very variable</i>. Watch the blue lines and F.</div>
+    <div><b>Try:</b> tick all three line types. Each gray line equals its orange piece plus its blue piece.</div>
   </div>
 </div>
 </section>
@@ -341,62 +376,9 @@ function fmtP(p){return p<.001?'< .001':p.toFixed(3).replace(/^0/,'');}
 function f2(x){return (Math.round(x*100)/100).toFixed(2);}
 
 /* ================= tabs ================= */
-function showTab(t){['ex','cl'].forEach(n=>{document.getElementById('pane-'+n).classList.toggle('on',n===t);document.getElementById('tab-'+n).classList.toggle('on',n===t);});if(t==='ex')upd();else renderSteps();}
+function showTab(t){['ex','cl'].forEach(n=>{document.getElementById('pane-'+n).classList.toggle('on',n===t);document.getElementById('tab-'+n).classList.toggle('on',n===t);});if(t==='ex'){drawStory();drawPlay();}else renderSteps();}
 
-/* ================= TAB 1: explorer ================= */
-let G=2,sep=2,grps=[];
-const C=['#378ADD','#1D9E75','#D85A30','#7F77DD'];
-const NM=['Antibiotic A','Antibiotic B','Antibiotic C','Antibiotic D'];
-const NPER=12,SDV=3,BASE=24;
-function mkG(n,s){return Array.from({length:n},(_,gi)=>{const nom=BASE-gi*s;const pts=Array.from({length:NPER},()=>({v:Math.max(0.5,nom+gauss()*SDV),j:(Math.random()-.5)*12}));const mean=pts.reduce((a,p)=>a+p.v,0)/pts.length;const vr=pts.reduce((a,p)=>a+(p.v-mean)**2,0)/(pts.length-1);return{name:NM[gi],color:C[gi],pts,mean,vr};});}
-
-function calc(gs){
-  const N=gs.reduce((a,g)=>a+g.pts.length,0),k=gs.length;
-  const gm=gs.reduce((a,g)=>a+g.pts.reduce((s,p)=>s+p.v,0),0)/N;
-  const SS_b=gs.reduce((a,g)=>a+g.pts.length*(g.mean-gm)**2,0);
-  const SS_w=gs.reduce((a,g)=>a+g.pts.reduce((s,p)=>s+(p.v-g.mean)**2,0),0);
-  const SS_t=SS_b+SS_w,df_b=k-1,df_w=N-k;
-  const MS_b=SS_b/df_b,MS_w=SS_w/df_w,F=MS_b/MS_w;
-  const pval=fPval(F,df_b,df_w);
-  let t_stat=null;
-  if(k===2){const se=Math.sqrt(MS_w*(1/gs[0].pts.length+1/gs[1].pts.length));t_stat=(gs[1].mean-gs[0].mean)/se;}
-  return{gm,SS_b,SS_w,SS_t,df_b,df_w,MS_b,MS_w,F,t_stat,pval,N,k};
-}
-
-function drawG(gs,st){
-  const cv=document.getElementById('cv'),dpr=Math.min(devicePixelRatio||1,2);
-  const W=Math.max(320,Math.round(cv.clientWidth||800)),H=78+gs.length*62;
-  cv.width=W*dpr;cv.height=H*dpr;cv.style.height='auto';cv.style.aspectRatio=W+'/'+H;
-  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
-  const allV=gs.flatMap(g=>g.pts.map(p=>p.v));
-  const lo=Math.max(0,Math.floor(Math.min(...allV)/5)*5-2),hi=Math.ceil(Math.max(...allV)/5)*5+2;
-  const L=118,R=W-20,tX=v=>L+(v-lo)/(hi-lo)*(R-L);
-  const axY=H-34,gx=tX(st.gm);
-  ctx.beginPath();ctx.moveTo(gx,18);ctx.lineTo(gx,axY);ctx.strokeStyle='rgba(80,80,78,.3)';ctx.setLineDash([5,4]);ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='rgba(60,60,58,.8)';ctx.font='13px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Grand mean '+st.gm.toFixed(1),gx,12);
-  // axis
-  ctx.beginPath();ctx.moveTo(L,axY);ctx.lineTo(R,axY);ctx.strokeStyle='rgba(80,80,78,.35)';ctx.lineWidth=1;ctx.stroke();
-  const step=(hi-lo)>40?10:5;
-  ctx.font='13px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.75)';
-  for(let v=Math.ceil(lo/step)*step;v<=hi;v+=step){const x=tX(v);ctx.beginPath();ctx.moveTo(x,axY);ctx.lineTo(x,axY+4);ctx.stroke();ctx.fillText(v,x,axY+16);}
-  ctx.fillText('Days until infection cleared',(L+R)/2,H-3);
-  gs.forEach((g,gi)=>{
-    const cy=48+gi*62,mx=tX(g.mean),sd=Math.sqrt(g.vr);
-    ctx.font='600 14px system-ui,sans-serif';ctx.textAlign='right';ctx.fillStyle=g.color;ctx.fillText(g.name,L-12,cy+4);
-    const bx1=tX(g.mean-sd),bx2=tX(g.mean+sd);
-    ctx.fillStyle='#378ADD1c';ctx.strokeStyle='#378ADD40';ctx.lineWidth=1;
-    ctx.beginPath();ctx.rect(bx1,cy-12,bx2-bx1,24);ctx.fill();ctx.stroke();
-    g.pts.forEach(p=>{ctx.beginPath();ctx.arc(tX(p.v),cy+p.j*.5,4,0,Math.PI*2);ctx.fillStyle=g.color+'bb';ctx.fill();});
-    ctx.beginPath();ctx.moveTo(mx,cy-17);ctx.lineTo(mx,cy+17);ctx.strokeStyle=g.color;ctx.lineWidth=3;ctx.stroke();
-    if(Math.abs(mx-gx)>6){
-      const ay=cy-22,x1=Math.min(mx,gx)+2,x2=Math.max(mx,gx)-2;
-      ctx.beginPath();ctx.moveTo(x1,ay);ctx.lineTo(x2,ay);ctx.strokeStyle='#E85D24';ctx.lineWidth=2;ctx.stroke();
-      const tip=gx<mx?x1:x2,d=gx<mx?-1:1;
-      ctx.beginPath();ctx.moveTo(tip,ay);ctx.lineTo(tip-d*8,ay-4);ctx.lineTo(tip-d*8,ay+4);ctx.fillStyle='#E85D24';ctx.fill();
-    }
-  });
-}
-
+/* ================= F-distribution plot (used in tab 2) ================= */
 // generic F-distribution plot (used by both tabs)
 function drawF(cvId,F,d1,d2,showCrit){
   const cv=document.getElementById(cvId);if(!cv)return;
@@ -428,65 +410,210 @@ function drawF(cvId,F,d1,d2,showCrit){
   ctx.fillText('F(df₁ = '+d1+', df₂ = '+d2+')',W-PR-4,PT+(showCrit?44:12));
 }
 
-const TASKS=[
-  {q:'Set <b>2 groups</b> (Antibiotic A vs B) and drag the slider all the way to <b>0</b> — the two antibiotics truly work equally well. What happens to the orange arrows? Why is the t-statistic close to 0? Click <i>New sample</i> a few times: is p ever below .05?',h:'With no true difference, both group means land near the grand mean, so the orange arrows (signal) nearly vanish and t ≈ 0. Every so often — about 1 sample in 20 — p will still dip below .05 just by chance. That is a <b>Type I error</b>: the α = .05 you agreed to.'},
-  {q:'Slowly drag the slider to the right. At roughly what true difference (in days) does the result become significant <i>most of the time</i>? What changed in the dot plot?',h:'The orange arrows grow as the group means pull apart, while the blue ±1 SD bands stay about the same width. Once the signal is big compared with the noise (often around 3–4 days here), p < .05 on most samples. Watch the shaded tail on the F curve shrink as F grows.'},
-  {q:'<span class="badge">Check-in</span>With <b>2 groups</b>, write down the <b>t</b> (in the blue box under the table) and the <b>F</b> (in the table). Square t. What do you notice? What does this tell you about the t-test and ANOVA?',h:'t² = F (up to rounding), and the p-values match. With two groups, the one-way ANOVA <i>is</i> an independent t-test — the t-test is just the special case where df<sub>between</sub> = 1. ANOVA is the generalization to 3+ groups.'},
-  {q:'Switch to <b>3 groups</b> with a medium difference. Look at the SS bar: which is larger, SS<sub>between</sub> or SS<sub>within</sub>? Now add SS<sub>between</sub> + SS<sub>within</sub> yourself. Does it equal SS<sub>total</sub>?',h:'It always adds up: SS<sub>total</sub> = SS<sub>between</sub> + SS<sub>within</sub>. ANOVA splits all the variability among patients into a part explained by the antibiotic (between) and a part it can\'t explain (within/error).'},
-  {q:'<span class="badge">Check-in</span>Keep your settings and click <b>&#8635; New sample</b> five times. Does the p-value change? Does it ever flip between significant and not significant? If you ran this trial only once, what does that mean for your conclusion?',h:'Each click is a new set of patients from the same populations, so F and p bounce around — <b>sampling variability</b>. A single trial with p = .04 or p = .07 is weak, unstable evidence either way; that is why medical results need replication and adequate sample sizes.'},
-  {q:'Set <b>4 groups</b> with the slider about one-third of the way. Describe the F-distribution chart. What does the shaded area represent, and what would it mean if that area were large (say 0.60)?',h:'The shaded area is the p-value: the probability of getting an F this large or larger <i>if H₀ were true</i> (all antibiotics equal). p = 0.60 means a result like yours is very common when the antibiotics don\'t differ — no evidence of a difference.'},
-  {q:'Find any setting where the result is <b>not</b> significant (p ≥ .05). Record SS<sub>between</sub>, SS<sub>within</sub> and F. Describe the dot plot: what do the orange arrows and blue bands look like?',h:'Non-significant results usually have SS<sub>within</sub> much larger than SS<sub>between</sub>: short orange arrows, wide overlapping blue bands, and F close to 1. The noise swamps the signal.'},
-  {q:'<span class="badge">Check-in</span>With <b>3 groups</b>, why not just run three t-tests (A vs B, A vs C, B vs C)? Use 1 − (0.95)<sup>c</sup>, where c = number of comparisons, to find the chance of at least one false positive. Repeat for 4 groups (6 comparisons).',h:'3 comparisons: 1 − 0.95³ = 1 − 0.857 = 0.143 → about 14%. 4 groups, 6 comparisons: 1 − 0.95⁶ ≈ 0.265 → about 26%. One ANOVA tests everything at once and keeps the false-positive rate at 5%.'},
-  {q:'<span class="badge">After tab ②</span>In the class example, Antibiotic B cleared infections 2 days faster than A on average, but Tukey said "not significant." Set <b>2 groups</b> and the slider to <b>2 days</b>, then click <i>New sample</i> 10 times. How many times out of 10 is p < .05? Does "not significant" mean "no difference"?',h:'Even though there <i>is</i> a real 2-day difference here, many samples of 12 patients per group miss it (low <b>power</b>). Failing to reject H₀ means "not enough evidence," not "proven to be the same." A bigger trial could detect it.'},
-];
 
-function renderTasks(){
-  document.getElementById('tasks').innerHTML=TASKS.map((t,i)=>
-    '<div class="task" id="task'+i+'"><div class="trow"><span class="tnum" onclick="toggleDone('+i+')" title="Mark complete">'+(i+1)+'</span><div class="tbody">'+t.q+'<div><button class="hbtn" onclick="toggleHint('+i+')">Show hint</button></div><div class="thint" id="hint'+i+'">'+t.h+'</div></div></div></div>'
-  ).join('');
-}
-function toggleDone(i){document.getElementById('task'+i).classList.toggle('done');}
-function toggleHint(i){const h=document.getElementById('hint'+i);const o=h.classList.toggle('open');h.previousElementSibling.firstChild.textContent=o?'Hide hint':'Show hint';}
+/* ================= TAB 1: sources of variation ================= */
+const GRAY='#8a8984',ORG='#E85D24',BLU='#378ADD',GCOL=['#7F5BD6','#1D9E75','#C2417A'],GNM=['Antibiotic A','Antibiotic B','Antibiotic C'];
+const sgn=x=>(x>0?'+':x<0?'−':'')+nice(Math.abs(x));
 
-function upd(){
-  const st=calc(grps);
-  drawG(grps,st);drawF('dcv',st.F,st.df_b,st.df_w,false);
-  const pct=Math.max(2,Math.min(95,st.SS_b/st.SS_t*100));
-  document.getElementById('ssbar-b').style.width=pct+'%';
-  document.getElementById('ssbar-b').textContent='SS_b '+pct.toFixed(0)+'%';
-  document.getElementById('ssbar-w').textContent='SS_w '+(100-pct).toFixed(0)+'%';
-  document.getElementById('mssb').textContent=st.SS_b.toFixed(1);
-  document.getElementById('mssw').textContent=st.SS_w.toFixed(1);
-  document.getElementById('msst').textContent=st.SS_t.toFixed(1);
-  const isTT=st.k===2;
-  document.getElementById('tss1').textContent=st.SS_b.toFixed(2);
-  document.getElementById('tss2').textContent=st.SS_w.toFixed(2);
-  document.getElementById('tsst').textContent=st.SS_t.toFixed(2);
-  document.getElementById('tdf1').textContent=st.df_b;
-  document.getElementById('tdf2').textContent=st.df_w;
-  document.getElementById('tdft').textContent=st.N-1;
-  document.getElementById('tms1').textContent=st.MS_b.toFixed(2);
-  document.getElementById('tms2').textContent=st.MS_w.toFixed(2);
-  document.getElementById('tstat').textContent=st.F.toFixed(3);
-  document.getElementById('tpval').textContent=fmtP(st.pval);
-  document.getElementById('mpval').textContent=fmtP(st.pval);
-  const sig=st.pval<.05;
-  document.getElementById('psig').textContent=sig?'✓ Significant at α = .05 — reject H₀':'✗ Not significant at α = .05 — fail to reject H₀';
-  document.getElementById('psig').style.color=sig?'#0f6e56':'#73726c';
-  document.getElementById('tstlbl').textContent=isTT?'Independent T-Test':'One-Way ANOVA';
-  document.getElementById('sepval').textContent=sep.toFixed(1)+' days';
-  const feq=document.getElementById('fequiv');
-  if(isTT){const p2=tPval(st.t_stat,st.df_w);feq.style.display='block';feq.innerHTML='<b>T-test ↔ ANOVA link:</b> the t-test on these same two groups gives t('+st.df_w+') = '+st.t_stat.toFixed(3)+', p = '+fmtP(p2)+'. Square it: t² = '+(st.t_stat**2).toFixed(3)+' — compare with F in the table.';}
-  else feq.style.display='none';
-  ['2','3','4'].forEach(n=>document.getElementById('b'+n).classList.toggle('on',+n===G));
+/* build plotting data from three groups of values */
+function mkData(vals){
+  const pts=[];let start=0;const GAP=1.5;
+  const ns=vals.map(v=>v.length),N=ns.reduce((a,b)=>a+b,0);
+  const means=vals.map(v=>v.reduce((a,b)=>a+b,0)/v.length);
+  const gm=vals.flat().reduce((a,b)=>a+b,0)/N;
+  vals.forEach((v,g)=>{v.forEach((x,j)=>pts.push({g,v:x,ug:start+j}));start+=v.length+GAP;});
+  const U=start-GAP;
+  // fixed "mixed up" order for the unsorted view
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+  const order=pts.map((p,i)=>({i,r:rnd()})).sort((a,b)=>a.r-b.r);
+  order.forEach((o,k)=>{pts[o.i].us=(k+0.5)*U/N-0.5;});
+  const SSB=vals.reduce((a,v,g)=>a+v.length*(means[g]-gm)**2,0);
+  const ssg=vals.map((v,g)=>v.reduce((a,x)=>a+(x-means[g])**2,0));
+  const SSW=ssg.reduce((a,b)=>a+b,0),SST=SSB+SSW,k=vals.length,dfB=k-1,dfW=N-k,MSB=SSB/dfB,MSW=SSW/dfW,F=MSW>0?MSB/MSW:Infinity;
+  const all=vals.flat();
+  return{pts,U,ns,N,means,gm,SSB,SSW,SST,ssg,k,dfB,dfW,MSB,MSW,F,p:fPval(F,dfB,dfW),vmin:Math.min(...all),vmax:Math.max(...all)};
 }
-function setG(n){G=n;grps=mkG(G,sep);upd();}
-function setSep(v){sep=v;grps=mkG(G,sep);upd();}
-function newSample(){grps=mkG(G,sep);upd();}
+
+/* draw the dot plot for a given visual state */
+function drawScene(cvId,st,D,yr){
+  const cv=document.getElementById(cvId);if(!cv)return;
+  const dpr=Math.min(devicePixelRatio||1,2),W=Math.max(300,Math.round(cv.clientWidth||800)),H=W<560?340:400;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.height='auto';cv.style.aspectRatio=W+'/'+H;
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
+  const small=W<560,PL=small?44:60,PR=small?10:18,PT=26,PB=small?52:48;
+  const yMin=yr[0],yMax=yr[1];
+  const Y=v=>PT+(yMax-v)/(yMax-yMin)*(H-PT-PB);
+  const X=u=>PL+(u+0.5)/D.U*(W-PL-PR);
+  const slotW=(W-PL-PR)/D.U,off=Math.min(9,slotW*0.3),r=small?5:7;
+  // grid + y axis
+  ctx.font=(small?12:14)+'px system-ui,sans-serif';ctx.textAlign='right';ctx.fillStyle='rgba(60,60,58,.7)';
+  const step=(yMax-yMin)>30?10:5;
+  for(let v=Math.ceil(yMin/step)*step;v<=yMax+1e-9;v+=step){const y=Y(v);ctx.strokeStyle='rgba(80,80,78,.10)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(W-PR,y);ctx.stroke();ctx.fillText(v,PL-8,y+4);}
+  ctx.save();ctx.translate(small?11:15,(PT+H-PB)/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('Days until infection cleared',0,0);ctx.restore();
+  let gmLabel=null;const mLabels=[];
+  const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  const s=ease(st.sortT);
+  const px=p=>X(p.us+(p.ug-p.us)*s);
+  const col=p=>mixHex(GRAY,GCOL[p.g],st.colorT);
+  const hp=st.hlIdx!=null?D.pts[st.hlIdx]:null;
+  const dimOf=p=>hp&&p!==hp?1-0.8*st.hl:1;
+  // group labels along the bottom
+  ctx.textAlign='center';ctx.font='600 '+(small?12:14)+'px system-ui,sans-serif';
+  if(st.colorT<0.99){ctx.globalAlpha=1-st.colorT;ctx.fillStyle='rgba(60,60,58,.8)';ctx.fillText('All '+D.N+' patients, mixed together',(PL+W-PR)/2,H-PB+28);}
+  if(st.colorT>0.01){ctx.globalAlpha=st.colorT;D.ns.forEach((n,g)=>{const u0=D.pts.find(p=>p.g===g).ug;ctx.fillStyle=GCOL[g];ctx.fillText(small?GNM[g].replace('Antibiotic ',''):GNM[g],(X(u0)+X(u0+n-1))/2,H-PB+28);});}
+  ctx.globalAlpha=1;
+  // grand mean line
+  if(st.gmL>0){const y=Y(D.gm);ctx.strokeStyle='rgba(60,60,58,.55)';ctx.setLineDash([7,5]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(PL+(W-PL-PR)*st.gmL,y);ctx.stroke();ctx.setLineDash([]);
+    if(st.gmL>0.95){gmLabel=()=>{ctx.font='600 '+(small?12:14)+'px system-ui,sans-serif';lbl(ctx,'grand mean x̿ = '+nice(D.gm),W-PR-4,y-8,'right','#3d3d3a');};}}
+  // group mean bars
+  if(st.gmSeg>0){D.ns.forEach((n,g)=>{const u0=D.pts.find(p=>p.g===g).ug;const y=Y(D.means[g]);ctx.globalAlpha=st.gmSeg*(hp&&hp.g!==g?1-0.6*st.hl:1);ctx.strokeStyle=GCOL[g];ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(X(u0-0.45),y);ctx.lineTo(X(u0+n-0.55),y);ctx.stroke();
+    const lx=X(u0+n-0.55)+4,ga=ctx.globalAlpha;if(!small)mLabels.push(()=>{ctx.globalAlpha=ga;ctx.font='600 14px system-ui,sans-serif';lbl(ctx,'x̄ = '+nice(D.means[g]),Math.min(lx,W-PR-64),y-8,'left',GCOL[g]);ctx.globalAlpha=1;});});ctx.globalAlpha=1;}
+  // deviation lines
+  const vis=[st.totalL>0.01,st.betweenL>0.01,st.withinL>0.01];const nv=vis.filter(Boolean).length;let idx=0;
+  const oBW=vis[1]&&vis[2]?off*0.45:0;const offs=[vis[1]||vis[2]?-off*1.3:0,-oBW,oBW];
+  const seg=(x,y1,y2,c,a,w)=>{if(Math.abs(y2-y1)<0.5)return;ctx.globalAlpha=a;ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x,y1);ctx.lineTo(x,y2);ctx.stroke();ctx.globalAlpha=1;};
+  const lw=small?2:3;
+  D.pts.forEach(p=>{
+    const x=px(p),m=D.means[p.g],d=dimOf(p);
+    if(st.totalL>0.01)seg(x+offs[0],Y(D.gm),Y(D.gm+(p.v-D.gm)*st.totalL),GRAY,d,lw);
+    if(st.betweenL>0.01)seg(x+offs[1],Y(D.gm),Y(D.gm+(m-D.gm)*st.betweenL),ORG,d,lw);
+    if(st.withinL>0.01)seg(x+offs[2],Y(m),Y(m+(p.v-m)*st.withinL),BLU,d,lw);
+  });
+  // dots
+  D.pts.forEach(p=>{
+    const x=px(p),m=D.means[p.g],v=p.v+(m-p.v)*st.collapseT,d=dimOf(p),big=hp===p?st.hl:0;
+    ctx.globalAlpha=st.dotA*d;ctx.beginPath();ctx.arc(x,Y(v),r+big*3,0,Math.PI*2);ctx.fillStyle=col(p);ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle='#fff';ctx.stroke();
+    if(big>0.5){ctx.lineWidth=2;ctx.strokeStyle='#3d3d3a';ctx.beginPath();ctx.arc(x,Y(v),r+big*3+3,0,Math.PI*2);ctx.stroke();}
+  });
+  ctx.globalAlpha=1;
+  mLabels.forEach(f=>f());if(gmLabel)gmLabel();
+  // one patient split into between + within
+  if(hp&&st.split>0){
+    const x=px(hp),m=D.means[hp.g],gx=x-26,bx=x+26,a1=Math.min(1,st.split*2),a2=Math.max(0,st.split*2-1);
+    const fnt='700 '+(small?12:15)+'px system-ui,sans-serif';ctx.font=fnt;
+    ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(60,60,58,.45)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(gx,Y(hp.v));ctx.lineTo(bx,Y(hp.v));ctx.stroke();ctx.setLineDash([]);
+    seg(gx,Y(D.gm),Y(D.gm+(hp.v-D.gm)*a1),GRAY,1,6);
+    if(a1>0.95){const t='total '+sgn(hp.v-D.gm),tw=ctx.measureText(t).width;if(gx-10-tw>PL)lbl(ctx,t,gx-10,(Y(D.gm)+Y(hp.v))/2+5,'right','#3d3d3a');else lbl(ctx,t,gx,Y(D.gm)+(hp.v>=D.gm?22:-10),'center','#3d3d3a');}
+    const b1=Math.min(1,a2*2),b2=Math.max(0,a2*2-1);
+    seg(bx,Y(D.gm),Y(D.gm+(m-D.gm)*b1),ORG,1,6);
+    seg(bx,Y(m),Y(m+(hp.v-m)*b2),BLU,1,6);
+    ctx.textAlign='left';
+    if(b1>0.95)lbl(ctx,'between '+sgn(m-D.gm),bx+10,(Y(D.gm)+Y(m))/2+5,'left','#c2491b');
+    if(b2>0.95)lbl(ctx,'within '+sgn(hp.v-m),bx+10,(Y(m)+Y(hp.v))/2+5,'left','#1e6bb8');
+  }
+}
+function lbl(ctx,t,x,y,align,color){const w=ctx.measureText(t).width,h=parseInt(ctx.font.match(/(\d+)px/)[1],10);const x0=align==='right'?x-w:align==='center'?x-w/2:x;ctx.save();ctx.globalAlpha*=0.88;ctx.fillStyle='#fff';ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x0-4,y-h+1,w+8,h+5,4);else ctx.rect(x0-4,y-h+1,w+8,h+5);ctx.fill();ctx.restore();ctx.textAlign=align;ctx.fillStyle=color;ctx.fillText(t,x,y);}
+function mixHex(a,b,t){const pa=parseInt(a.slice(1),16),pb=parseInt(b.slice(1),16);const c=(s)=>Math.round(((pa>>s)&255)*(1-t)+((pb>>s)&255)*t);return 'rgb('+c(16)+','+c(8)+','+c(0)+')';}
+
+/* ---------- the story ---------- */
+let SD=null,SYR=[0,20],scene=0,ST={},animTok=0;
+const INIT={dotA:0,gmL:0,sortT:0,colorT:0,gmSeg:0,totalL:0,betweenL:0,withinL:0,collapseT:0,hl:0,split:0,barT:0,fT:0,ssT:0,ssB:0,ssW:0,hlIdx:null};
+let SCENES=[];
+function buildScenes(){
+  const D=SD,m=D.means.map(nice),hp=D.pts[D.hlIdx],hm=D.means[hp.g];
+  const card=(c,lab,key,extra)=>'<div class="rc" style="border-left-color:'+c+'"><div class="rcl">'+lab+'</div><div class="rcv" data-c="'+key+'">0</div>'+(extra?'<div class="rcx">'+extra+'</div>':'')+'</div>';
+  const cT=card(GRAY,'Total variation, SS(T)','ssT','Σ(x − x̿)²: square every gray line, add all '+D.N);
+  const cB=card(ORG,'Between groups, SS(B)','ssB',D.ns.map((n,g)=>n+'('+m[g]+' − '+nice(D.gm)+')²').join(' + ')+' = '+D.ns.map((n,g)=>nice(n*(D.means[g]-D.gm)**2)).join(' + '));
+  const cW=card(BLU,'Within groups (residual), SS(W)','ssW','Σ(x − x̄)² for each antibiotic: '+D.ssg.map(nice).join(' + '));
+  SCENES=[
+   {t:'Every patient is different',p:'Here are all '+D.N+' patients, mixed together. Each dot is one patient. The dashed line is the <b>grand mean</b>, '+nice(D.gm)+' days. Notice that the patients don\'t all take '+nice(D.gm)+' days. Their recovery times are scattered above and below it.',
+    d:{dotA:1,gmL:1},play:[[{dotA:1},700],[{gmL:1},900]],
+    r:()=>'<div class="rtxt">Grand mean x̿ = average of all '+D.N+' patients = <b>'+nice(D.gm)+' days</b></div>'},
+   {t:'Total variation',p:'Each <b style="color:#5f5e58">gray line</b> is one patient\'s distance from the grand mean. Square every gray line and add them all up to get the <b>total sum of squares, SS(T)</b>. This is all the variation that ANOVA tries to explain.',
+    d:{totalL:1,ssT:D.SST},play:[[{totalL:1,ssT:D.SST},1600]],r:()=>'<div class="rcards">'+cT+'</div>'},
+   {t:'Sort the patients by antibiotic',p:'Now watch the same patients sort themselves by which antibiotic they got. Each colored bar is that antibiotic\'s <b>group mean</b> (A = '+m[0]+', B = '+m[1]+', C = '+m[2]+' days). Do the antibiotics look different?',
+    d:{totalL:0,sortT:1,colorT:1,gmSeg:1},play:[[{totalL:0},350],200,[{sortT:1,colorT:1},1500],[{gmSeg:1},700]],r:()=>'<div class="rcards">'+cT+'</div>'},
+   {t:'Between groups: the signal',p:'Pretend every patient recovered in exactly their group\'s average time. Watch the dots slide onto their group mean. Now the only differences left are <b style="color:#c2491b">between the antibiotics</b>. Each orange line runs from the grand mean to a group mean, counted once for every patient in that group. Square and add them to get <b>SS(B)</b>.',
+    d:{collapseT:1,betweenL:1,ssB:D.SSB},play:[[{collapseT:1},1200],250,[{betweenL:1,ssB:D.SSB},1200]],r:()=>'<div class="rcards">'+cT+cB+'</div>'},
+   {t:'Within groups: residual error',p:'Now put the patients back where they really were. Each <b style="color:#1e6bb8">blue line</b> is a patient\'s distance from <i>their own</i> group\'s mean. These are differences among patients who got the <b>same</b> antibiotic, from things like age, immune system, or how bad the infection was. The antibiotic can\'t explain this leftover, so it is called the <b>within-group</b>, <b>residual</b>, or <b>error</b> variation. Square and add to get <b>SS(W)</b>.',
+    d:{betweenL:0,collapseT:0,withinL:1,ssW:D.SSW},play:[[{betweenL:0},300],[{collapseT:0},1200],[{withinL:1,ssW:D.SSW},1300]],r:()=>'<div class="rcards">'+cT+cB+cW+'</div>'},
+   {t:'One patient, split in two',p:'Follow one patient on '+GNM[hp.g]+' who took <b>'+nice(hp.v)+' days</b>. Their total distance from the grand mean ('+sgn(hp.v-D.gm)+') splits exactly into two pieces: their group\'s distance from the grand mean (<b style="color:#c2491b">'+sgn(hm-D.gm)+', between</b>) plus their own distance from their group mean (<b style="color:#1e6bb8">'+sgn(hp.v-hm)+', within</b>). Every patient splits this way.',
+    d:{withinL:0,hl:1,split:1},play:[[{withinL:0},300],[{hl:1},600],[{split:1},2200]],
+    r:()=>'<div class="rtxt big">('+nice(hp.v)+' − '+nice(D.gm)+') = ('+nice(hm)+' − '+nice(D.gm)+') + ('+nice(hp.v)+' − '+nice(hm)+')<br><span style="color:#5f5e58">total '+sgn(hp.v-D.gm)+'</span> = <span style="color:#c2491b">between '+sgn(hm-D.gm)+'</span> + <span style="color:#1e6bb8">within '+sgn(hp.v-hm)+'</span></div>'},
+   {t:'Add it all up and compare',p:'The same split works for the sums of squares: <b>Total = Between + Within</b>. ANOVA then compares the two sources. F = MS(B) ÷ MS(W) asks how big the between-group variation is compared with the residual error.',
+    d:{hl:0,split:0,betweenL:1,withinL:1,barT:1,fT:1},play:[[{hl:0,split:0},400],[{betweenL:1,withinL:1},800],[{barT:1},1300],[{fT:1},700]],
+    r:()=>'<div class="rbar"><div id="rbB"><span>SS(B) '+nice(D.SSB)+'</span></div><div id="rbW"><span>SS(W) '+nice(D.SSW)+'</span></div></div><div class="rtxt">SS(T) <b>'+nice(D.SST)+'</b> = <span style="color:#c2491b">SS(B) <b>'+nice(D.SSB)+'</b></span> + <span style="color:#1e6bb8">SS(W) <b>'+nice(D.SSW)+'</b></span></div>'+
+      '<div class="rtxt" id="rF">MS(B) = '+nice(D.SSB)+' ÷ '+D.dfB+' = '+f2(D.MSB)+' &nbsp;·&nbsp; MS(W) = '+nice(D.SSW)+' ÷ '+D.dfW+' = '+f2(D.MSW)+'<br><b>F = '+f2(D.MSB)+' ÷ '+f2(D.MSW)+' = '+f2(D.F)+'</b>: the between-group variation is about '+Math.round(D.F)+' times the residual error, so the antibiotics really do differ (p = '+fmtP(D.p)+').</div>'},
+  ];
+  let acc={...INIT,hlIdx:D.hlIdx};SCENES.forEach(sc=>{acc={...acc,...sc.d};sc.fin={...acc};});
+}
+function initStory(){
+  SD=mkData(DEF.vals);
+  const a=SD.pts.filter(p=>p.g===0);SD.hlIdx=SD.pts.indexOf(a.reduce((b,p)=>p.v>b.v?p:b,a[0]));
+  SYR=[0,Math.ceil((SD.vmax+2)/5)*5];
+  buildScenes();
+  document.getElementById('scdots').innerHTML=SCENES.map((s,i)=>'<button class="scdot" title="Step '+(i+1)+': '+s.t+'" aria-label="Go to step '+(i+1)+'" onclick="goScene('+i+')"></button>').join('');
+  goScene(0);
+}
+function tweenTo(to,dur,tok){
+  const from={};for(const k in to)from[k]=ST[k];const t0=performance.now();
+  return new Promise(res=>{function f(now){if(tok!==animTok)return res(false);const t=Math.min(1,(now-t0)/dur),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+    for(const k in to)ST[k]=from[k]+(to[k]-from[k])*e;drawStory();if(t<1)requestAnimationFrame(f);else res(true);}requestAnimationFrame(f);});
+}
+async function goScene(k){
+  if(k<0||k>=SCENES.length)return;
+  const tok=++animTok;scene=k;
+  ST={...(k===0?{...INIT,hlIdx:SD.hlIdx}:SCENES[k-1].fin)};
+  const sc=SCENES[k];
+  document.getElementById('scnum').textContent='Step '+(k+1)+' of '+SCENES.length;
+  document.getElementById('sctitle').textContent=sc.t;
+  document.getElementById('scprompt').innerHTML=sc.p;
+  document.getElementById('scread').innerHTML=sc.r();
+  document.getElementById('scback').disabled=k===0;
+  document.getElementById('scnext').disabled=k===SCENES.length-1;
+  document.querySelectorAll('.scdot').forEach((d,i)=>{d.classList.toggle('on',i===k);d.classList.toggle('past',i<k);});
+  drawStory();
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){ST={...sc.fin};drawStory();return;}
+  for(const stp of sc.play){
+    if(typeof stp==='number'){await new Promise(r=>setTimeout(r,stp));if(tok!==animTok)return;continue;}
+    const ok=await tweenTo(stp[0],stp[1],tok);if(!ok)return;
+  }
+  ST={...sc.fin};drawStory();
+}
+function drawStory(){
+  if(!SD)return;
+  drawScene('scv',ST,SD,SYR);
+  document.querySelectorAll('#scread [data-c]').forEach(e=>{e.textContent=Math.round(ST[e.dataset.c]);});
+  const b=document.getElementById('rbB'),w=document.getElementById('rbW');
+  if(b){b.style.width=(SD.SSB/SD.SST*100*ST.barT)+'%';w.style.width=(SD.SSW/SD.SST*100*ST.barT)+'%';b.firstChild.style.opacity=w.firstChild.style.opacity=ST.barT>0.9?1:0;}
+  const f=document.getElementById('rF');if(f)f.style.opacity=ST.fT;
+}
+
+/* ---------- playground ---------- */
+function playVals(a,b){
+  const base=DEF.vals,ns=base.map(v=>v.length),N=ns.reduce((x,y)=>x+y,0);
+  const means=base.map(v=>v.reduce((x,y)=>x+y,0)/v.length),gm=base.flat().reduce((x,y)=>x+y,0)/N;
+  let out=base.map((v,g)=>v.map(x=>gm+a*(means[g]-gm)+b*(x-means[g])));
+  const mn=Math.min(...out.flat());if(mn<1)out=out.map(v=>v.map(x=>x+(1-mn))); // keep recovery times positive
+  return out;
+}
+function drawPlay(){
+  const a=+document.getElementById('sa').value,b=+document.getElementById('sb').value;
+  document.getElementById('aval').textContent='('+(a===1?'class data':'×'+a.toFixed(2))+')';
+  document.getElementById('bval').textContent='('+(b===1?'class data':'×'+b.toFixed(2))+')';
+  const D=mkData(playVals(a,b));
+  const yr=[Math.min(0,Math.floor(D.vmin/5)*5),Math.max(20,Math.ceil((D.vmax+1)/5)*5)];
+  const st={...INIT,dotA:1,gmL:1,sortT:1,colorT:1,gmSeg:1,totalL:document.getElementById('tT').checked?1:0,betweenL:document.getElementById('tB').checked?1:0,withinL:document.getElementById('tW').checked?1:0};
+  drawScene('pcv',st,D,yr);
+  const pb=D.SST>0?D.SSB/D.SST*100:0;
+  const bB=document.getElementById('pbB'),bW=document.getElementById('pbW');
+  bB.style.width=pb+'%';bW.style.width=(100-pb)+'%';
+  bB.textContent=pb>=14?'Between '+pb.toFixed(0)+'%':'';bW.textContent=(100-pb)>=14?'Within (residual) '+(100-pb).toFixed(0)+'%':'';
+  document.getElementById('ptab').innerHTML=
+   '<tr><td style="color:#c2491b">Between groups</td><td>'+f2(D.SSB)+'</td><td>'+D.dfB+'</td><td>'+f2(D.MSB)+'</td><td><b>'+f2(D.F)+'</b></td><td>'+fmtP(D.p)+'</td></tr>'+
+   '<tr><td style="color:#1e6bb8">Within groups (residual / error)</td><td>'+f2(D.SSW)+'</td><td>'+D.dfW+'</td><td>'+f2(D.MSW)+'</td><td class="na"></td><td class="na"></td></tr>'+
+   '<tr><td>Total</td><td>'+f2(D.SST)+'</td><td>'+(D.N-1)+'</td><td class="na"></td><td class="na"></td><td class="na"></td></tr>';
+  const sig=D.p<.05,v=document.getElementById('pverdict');
+  v.innerHTML=D.SSB<1e-6?'✗ <b>Not significant</b> (p = 1.000). There is no between-group signal: all three antibiotics have the same mean, so every bit of variation is residual error.':(sig?'✓ <b>Significant</b> (p '+(D.p<.001?'< .001':'= '+fmtP(D.p))+'). The between-group signal is large compared with the residual noise.':'✗ <b>Not significant</b> (p = '+fmtP(D.p)+'). The residual noise is too large for us to tell the antibiotics apart.');
+  v.style.color=sig?'#0f6e56':'#73726c';
+}
+function resetPlay(){document.getElementById('sa').value=1;document.getElementById('sb').value=1;drawPlay();}
+function initEx(){initStory();drawPlay();}
+document.addEventListener('keydown',e=>{if(!document.getElementById('pane-ex').classList.contains('on'))return;const t=e.target.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight')goScene(scene+1);else if(e.key==='ArrowLeft')goScene(scene-1);});
 
 /* ================= TAB 2: class example worksheet ================= */
 const DEF={names:['Antibiotic A','Antibiotic B','Antibiotic C'],vals:[[12,16,10,17,11,12],[9,13,7,11,16,9,12],[4,10,2,6,3]]};
-const GC=['#378ADD','#1D9E75','#D85A30'];
+const GC=['#7F5BD6','#1D9E75','#C2417A'];
 let D=JSON.parse(JSON.stringify(DEF));
 let S=null;            // computed stats
 let ans={};            // cellId -> {v, st}  st: ok|close|bad|shown|''
@@ -799,9 +926,9 @@ function downloadCSV(){
 }
 
 /* ================= init ================= */
-grps=mkG(G,sep);renderTasks();upd();
+initEx();
 renderData();compute();
-window.addEventListener('resize',()=>{if(document.getElementById('pane-ex').classList.contains('on'))upd();});
+let rzT;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{if(document.getElementById('pane-ex').classList.contains('on')){drawStory();drawPlay();}},120);});
 </script>
 </body>
 </html>
