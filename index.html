@@ -237,6 +237,22 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 .chrow:hover{background:#f5f4ef;}
 .chrow span{color:#73726c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 body{padding-bottom:80px;}
+
+.msrow{margin-bottom:12px;}
+.msl{font-size:15px;line-height:1.5;margin-bottom:4px;}
+.msbar{display:flex;height:34px;border-radius:6px;overflow:hidden;}
+.msbar.mb{background:#E85D24dd;}.msbar.mw{background:#378ADDdd;}
+.mseg{flex:1;border-left:2px solid transparent;}
+.mstx{font-size:16px;margin-top:4px;}
+.fcmp{margin-top:6px;background:#f5f4ef;border-radius:8px;padding:10px 12px;}
+.frow{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:16px;}
+.frow .fn{width:58px;font-weight:600;}
+.fbar{height:26px;border-radius:5px;min-width:2px;}
+.fbar.mb{background:#E85D24dd;}.fbar.mw{background:#378ADDdd;}
+.tkhow{margin-top:14px;background:#eef4fb;border:0.5px solid #b9d3f2;border-radius:10px;padding:12px 16px;}
+.tkhow ol{margin:6px 0 0 22px;font-size:15px;line-height:1.6;}
+.tkhow li{margin-bottom:6px;}
+.tkhow .formula{font-size:17px;margin:6px 0;display:table;}
 @media (max-width:760px){
   .srcgrid,.rcards{grid-template-columns:1fr;}
   .prow{grid-template-columns:1fr;}
@@ -569,7 +585,7 @@ function mixHex(a,b,t){const pa=parseInt(a.slice(1),16),pb=parseInt(b.slice(1),1
 
 /* ---------- the story ---------- */
 let SD=null,SYR=[0,20],scene=0,ST={},animTok=0;
-const INIT={dotA:0,gmL:0,sortT:0,colorT:0,gmSeg:0,totalL:0,betweenL:0,withinL:0,collapseT:0,hl:0,split:0,barT:0,fT:0,ssT:0,ssB:0,ssW:0,hlIdx:null};
+const INIT={dotA:0,gmL:0,sortT:0,colorT:0,gmSeg:0,totalL:0,betweenL:0,withinL:0,collapseT:0,hl:0,split:0,barT:0,fT:0,divT:0,msT:0,ssT:0,ssB:0,ssW:0,hlIdx:null};
 let SCENES=[];
 function buildScenes(){
   const D=SD,m=D.means.map(nice),hp=D.pts[D.hlIdx],hm=D.means[hp.g];
@@ -592,10 +608,21 @@ function buildScenes(){
    {t:'One patient, split in two',p:'Follow one patient on '+GNM[hp.g]+' who took <b>'+nice(hp.v)+' days</b>. Their total distance from the grand mean ('+sgn(hp.v-D.gm)+') splits exactly into two pieces: their group\'s distance from the grand mean (<b style="color:#c2491b">'+sgn(hm-D.gm)+', between</b>) plus their own distance from their group mean (<b style="color:#1e6bb8">'+sgn(hp.v-hm)+', within</b>). Every patient splits this way.',
     d:{withinL:0,hl:1,split:1},play:[[{withinL:0},300],[{hl:1},600],[{split:1},2200]],
     r:()=>'<div class="rtxt big">('+nice(hp.v)+' − '+nice(D.gm)+') = ('+nice(hm)+' − '+nice(D.gm)+') + ('+nice(hp.v)+' − '+nice(hm)+')<br><span style="color:#5f5e58">total '+sgn(hp.v-D.gm)+'</span> = <span style="color:#c2491b">between '+sgn(hm-D.gm)+'</span> + <span style="color:#1e6bb8">within '+sgn(hp.v-hm)+'</span></div>'},
-   {t:'Add it all up and compare',p:'The same split works for the sums of squares: <b>Total = Between + Within</b>. ANOVA then compares the two sources. F = MS(B) ÷ MS(W) asks how big the between-group variation is compared with the residual error.',
-    d:{hl:0,split:0,betweenL:1,withinL:1,barT:1,fT:1},play:[[{hl:0,split:0},400],[{betweenL:1,withinL:1},800],[{barT:1},1300],[{fT:1},700]],
-    r:()=>'<div class="rbar"><div id="rbB"><span>SS(B) '+nice(D.SSB)+'</span></div><div id="rbW"><span>SS(W) '+nice(D.SSW)+'</span></div></div><div class="rtxt">SS(T) <b>'+nice(D.SST)+'</b> = <span style="color:#c2491b">SS(B) <b>'+nice(D.SSB)+'</b></span> + <span style="color:#1e6bb8">SS(W) <b>'+nice(D.SSW)+'</b></span></div>'+
-      '<div class="rtxt" id="rF">MS(B) = '+nice(D.SSB)+' ÷ '+D.dfB+' = '+f2(D.MSB)+' &nbsp;·&nbsp; MS(W) = '+nice(D.SSW)+' ÷ '+D.dfW+' = '+f2(D.MSW)+'<br><b>F = '+f2(D.MSB)+' ÷ '+f2(D.MSW)+' = '+f2(D.F)+'</b>: the between-group variation is about '+Math.round(D.F)+' times the residual error, so the antibiotics really do differ (p = '+fmtP(D.p)+').</div>'},
+   {t:'Add it all up',p:'The same split works for the sums of squares: <b>Total = Between + Within</b>. Every bit of variation among the patients is either explained by the antibiotic (between) or left over as residual error (within).',
+    d:{hl:0,split:0,betweenL:1,withinL:1,barT:1},play:[[{hl:0,split:0},400],[{betweenL:1,withinL:1},800],[{barT:1},1300]],
+    r:()=>'<div class="rbar"><div id="rbB"><span>SS(B) '+nice(D.SSB)+'</span></div><div id="rbW"><span>SS(W) '+nice(D.SSW)+'</span></div></div><div class="rtxt">SS(T) <b>'+nice(D.SST)+'</b> = <span style="color:#c2491b">SS(B) <b>'+nice(D.SSB)+'</b></span> + <span style="color:#1e6bb8">SS(W) <b>'+nice(D.SSW)+'</b></span></div>'},
+   {t:'From sums of squares to F',p:'We can\'t compare the two SS values directly: SS(W) adds up squared distances for all '+D.N+' patients, but SS(B) comes from only '+D.k+' group means. So ANOVA turns each SS into an average called a <b>mean square (MS)</b> by dividing it by its <b>degrees of freedom</b>. Then <b>F = between-group MS ÷ within-group MS</b>.',
+    d:{divT:1,msT:1,fT:1},play:[[{divT:1},1400],300,[{msT:1},1200],[{fT:1},700]],
+    r:()=>{const segs=(n,cls)=>'<div class="msbar '+cls+'">'+Array.from({length:n},(_,i)=>'<div class="mseg'+(i?' dv':'')+'"></div>').join('')+'</div>';
+      const mx=Math.max(D.MSB,D.MSW);
+      return '<div class="msrow"><div class="msl" style="color:#c2491b"><b>Between groups:</b> SS(B) = '+nice(D.SSB)+', shared among df(B) = k − 1 = '+D.dfB+'</div><div style="width:'+(D.SSB/D.SST*100)+'%">'+segs(D.dfB,'mb')+'</div>'+
+        '<div class="mstx">MS(B) = SS(B) ÷ df(B) = '+nice(D.SSB)+' ÷ '+D.dfB+' = <b>'+f2(D.MSB)+'</b></div></div>'+
+        '<div class="msrow"><div class="msl" style="color:#1e6bb8"><b>Within groups (residual):</b> SS(W) = '+nice(D.SSW)+', shared among df(W) = N − k = '+D.dfW+'</div><div style="width:'+(D.SSW/D.SST*100)+'%">'+segs(D.dfW,'mw')+'</div>'+
+        '<div class="mstx">MS(W) = SS(W) ÷ df(W) = '+nice(D.SSW)+' ÷ '+D.dfW+' = <b>'+f2(D.MSW)+'</b></div></div>'+
+        '<div class="fcmp" id="fcmp"><div class="msl">Compare one piece of each:</div>'+
+        '<div class="frow"><span class="fn">MS(B)</span><div class="fbar mb" data-w="'+(D.MSB/mx*70)+'"></div><b>'+f2(D.MSB)+'</b></div>'+
+        '<div class="frow"><span class="fn">MS(W)</span><div class="fbar mw" data-w="'+(D.MSW/mx*70)+'"></div><b>'+f2(D.MSW)+'</b></div></div>'+
+        '<div class="rtxt" id="rF"><b>F = between-group MS ÷ within-group MS = '+f2(D.MSB)+' ÷ '+f2(D.MSW)+' = '+f2(D.F)+'</b><br>The between-group variation is about '+Math.round(D.F)+' times the residual error, so the antibiotics really do differ (p = '+fmtP(D.p)+').</div>';}},
   ];
   let acc={...INIT,hlIdx:D.hlIdx};SCENES.forEach(sc=>{acc={...acc,...sc.d};sc.fin={...acc};});
 }
@@ -639,6 +666,9 @@ function drawStory(){
   const b=document.getElementById('rbB'),w=document.getElementById('rbW');
   if(b){b.style.width=(SD.SSB/SD.SST*100*ST.barT)+'%';w.style.width=(SD.SSW/SD.SST*100*ST.barT)+'%';b.firstChild.style.opacity=w.firstChild.style.opacity=ST.barT>0.9?1:0;}
   const f=document.getElementById('rF');if(f)f.style.opacity=ST.fT;
+  document.querySelectorAll('#scread .mseg.dv').forEach(e=>{e.style.borderLeftColor='rgba(255,255,255,'+ST.divT+')';});
+  document.querySelectorAll('#scread .mstx').forEach(e=>{e.style.opacity=ST.divT;});
+  const fc=document.getElementById('fcmp');if(fc){fc.style.opacity=Math.min(1,ST.msT*1.5);fc.querySelectorAll('.fbar').forEach(e=>{e.style.width=(+e.dataset.w*ST.msT)+'%';});}
 }
 
 /* ---------- playground ---------- */
@@ -965,8 +995,13 @@ function renderPart4(open){
    S.pairs.map(pr=>'<tr class="'+(pr.p<.05?'tsig':'')+'"><td class="rl">'+S.g[pr.i].name+' vs '+S.g[pr.j].name+'</td><td>'+f2(Math.abs(pr.diff))+'</td><td>'+fmtP(pr.p)+'</td><td>'+sigWord(pr.p)+'</td></tr>').join('')+'</tbody></table></div>'+
    '<p class="stprompt" style="margin-top:12px;"><b>What it means:</b> '+(sig.length?sig.map(pr=>{const f=pr.diff<0?pr.j:pr.i,s=pr.diff<0?pr.i:pr.j;return S.g[f].name+' cleared infections '+f2(Math.abs(pr.diff)).replace(/\.00$/,'')+' days faster than '+S.g[s].name;}).join('; ')+'.':'No pair of antibiotics is significantly different.')+
    (ns.length&&sig.length?' '+ns.map(pr=>S.g[pr.i].name+' and '+S.g[pr.j].name).join('; ')+' were not significantly different.':'')+'</p>'+
-   '<div class="stbtns"><button class="hbtn" style="margin:0" onclick="document.getElementById(\'tkhint\').classList.toggle(\'open\')">How does Tukey decide?</button></div>'+
-   '<div class="hw hint" id="tkhint"><div class="lbl">How Tukey decides</div>Tukey compares each gap between two means with the residual noise (MS(W) = '+f2(S.MSW)+'). Because the groups are different sizes, each pair gets its own yardstick, the <b>minimum significant difference</b>. If the gap is bigger than its yardstick, the pair is significantly different:<br>'+S.pairs.map(pr=>S.g[pr.i].name+' vs '+S.g[pr.j].name+': gap '+f2(Math.abs(pr.diff))+' vs. yardstick '+f2(pr.msd)).join('<br>')+'</div>'+
+   '<div class="tkhow"><div class="lbl" style="color:#1e4f8c">How Tukey works, in 4 steps</div><ol>'+
+   '<li><b>How far apart are the two means?</b> For every pair of antibiotics, take the difference between their means (ignore the sign).</li>'+
+   '<li><b>Is that gap big compared with the noise?</b> Divide the gap by its <b>standard error</b>, which is built from MS(W) = '+f2(S.MSW)+' (the within-group / residual variance, also called MSE). The result is the test statistic <b>q</b>:<div class="formula">q = |x̄ᵢ − x̄ⱼ| ÷ √(MS(W) ÷ n)</div>Our groups are different sizes, so n is the <b>harmonic mean</b> of the two groups\' sample sizes. This is the Tukey-Kramer version.</li>'+
+   '<li><b>Is q big enough?</b> Compare q with a critical value from the <b>studentized range distribution</b> (Tukey\'s table, the way the F-table works for F). For k = '+S.k+' groups and df(W) = '+S.dfW+', the critical value is <b>'+S.qcrit.toFixed(2)+'</b>. It is higher than a t-test\'s cutoff because when you compare several pairs, the biggest gap will look large just by chance.</li>'+
+   '<li><b>Turn q into a p-value.</b> Software (jamovi, R\'s <code>TukeyHSD()</code>, Python\'s <code>scipy.stats.tukey_hsd</code>) converts each q into an adjusted p-value. If it is below 0.05, that pair is significantly different.</li></ol>'+
+   '<div class="tscroll"><table class="dev" style="font-size:15px;margin-top:6px;"><tr><th style="text-align:left">Comparison</th><th>Gap |x̄ᵢ − x̄ⱼ|</th><th>n (harmonic mean)</th><th>Standard error</th><th>q</th><th>q &gt; '+S.qcrit.toFixed(2)+'?</th><th>Tukey p</th></tr>'+
+   S.pairs.map(pr=>{const hm=2/(1/S.g[pr.i].n+1/S.g[pr.j].n);return '<tr><td style="text-align:left">'+S.g[pr.i].name+' vs '+S.g[pr.j].name+'</td><td>'+f2(Math.abs(pr.diff))+'</td><td>'+f2(hm)+'</td><td>√('+f2(S.MSW)+' ÷ '+f2(hm)+') = '+f2(pr.se)+'</td><td><b>'+f2(pr.q)+'</b></td><td>'+(pr.q>S.qcrit?'<b style="color:#0f6e56">Yes</b>':'No')+'</td><td>'+fmtP(pr.p)+'</td></tr>';}).join('')+'</table></div></div>'+
    '<p class="mut" style="margin-top:8px;">Tukey-Kramer (handles unequal n). In jamovi: ANOVA → One-Way ANOVA → Post-Hoc Tests → Tukey.</p>';
 }
 function checkTk(){}

@@ -62,7 +62,7 @@ Three color-coded cards define the sources, with the alternative names students 
 
 Group colors (purple, green, magenta) are deliberately different from the gray / orange / blue line colors so the two are never confused. Every plot labels the axes with the course terms: **Response variable** (days until infection cleared) on the y-axis and **Factor variable** (antibiotic) along the bottom.
 
-**Animated walkthrough (7 steps).** Each step plays a short animation with a prompt telling students what to watch, and a running readout of the sums of squares. Use **Back / Next / Replay**, the step dots, or the **← →** arrow keys when projecting.
+**Animated walkthrough (8 steps).** Each step plays a short animation with a prompt telling students what to watch, and a running readout of the sums of squares. Use **Back / Next / Replay**, the step dots, or the **← →** arrow keys when projecting.
 
 1. **Every patient is different:** all 18 patients mixed together, with the grand mean (10 days) drawn across.
 2. **Total variation:** gray lines grow from the grand mean to each patient; SS(T) counts up to 320.
@@ -70,7 +70,8 @@ Group colors (purple, green, magenta) are deliberately different from the gray /
 4. **Between groups (the signal):** the patients stay in place (faded) and **one orange line per group** is drawn from that group's mean to the grand mean, labeled ×n to show it is counted once per patient; SS(B) = 6(3)² + 7(1)² + 5(−5)² = 186.
 5. **Within groups (residual error):** dots slide back to their real values; blue lines show each patient's distance from their own group mean; SS(W) = 40 + 54 + 40 = 134.
 6. **One patient, split in two:** a single patient (17 days on Antibiotic A) is highlighted and their total deviation (+7) is drawn next to its two pieces, between (+3) and within (+4).
-7. **Add it all up and compare:** SS(T) 320 = SS(B) 186 + SS(W) 134 as a stacked bar, then MS(B), MS(W) and F = 10.41.
+7. **Add it all up:** SS(T) 320 = SS(B) 186 + SS(W) 134 as a stacked bar.
+8. **From sums of squares to F:** each SS bar splits into its degrees of freedom (2 pieces for between, 15 for within) to give the mean squares, MS(B) = 186 ÷ 2 = 93 and MS(W) = 134 ÷ 15 = 8.93. One piece of each is then compared side by side: F = between-group MS ÷ within-group MS = 10.41.
 
 **Try it yourself.** Two sliders (*how different the antibiotics are* and *how much patients vary on the same antibiotic*) and toggles for the total, between and within lines. A stacked bar shows what share of the total variation is between vs. within, with a live ANOVA table (SS, df, MS, F, p) and a plain-language verdict. As in the walkthrough, between-group variation is one orange line per group. Three short "Try" prompts guide what to drag and what to watch.
 
@@ -87,7 +88,7 @@ Each box turns **green** when correct (rounding within ~1.5% is accepted) or **r
 After the tables, three more parts unlock:
 
 3. **p-value and decision** — a short explanation of the F-distribution (a ratio of two variances, close to 1 when H₀ is true, never negative, right-skewed, shaped by df₁ = k − 1 and df₂ = N − k), the F curve with the critical value and p-value area, and an **F-table of critical values for α = 0.05** with the student's df₁ column and df₂ row highlighted so they can see where the critical value (3.68) comes from. Students then choose reject / fail to reject.
-4. **Tukey post-hoc test** — the Tukey-Kramer results table (mean difference, Tukey p-value, and "Significantly different" / "Not significantly different" spelled out), a plain-language summary, and an optional "How does Tukey decide?" explanation.
+4. **Tukey post-hoc test** — the Tukey-Kramer results table (mean difference, Tukey p-value, and "Significantly different" / "Not significantly different" spelled out), a plain-language summary, and **"How Tukey works, in 4 steps"**: (1) find the gap between each pair of means; (2) divide it by its standard error, √(MS(W) ÷ n), using the harmonic mean of the two sample sizes, to get **q**; (3) compare q with the critical value from the studentized range distribution (3.67 for k = 3, df = 15); (4) software turns q into an adjusted p-value. A worked table shows the gap, harmonic-mean n, standard error and q for every pair.
 5. **Write it up for a research paper** — a model Results paragraph (test, F(df₁, df₂), p, direction of the differences, post-hoc results), **Table 1** (n and mean ± SD for each antibiotic, with Tukey grouping letters) and **Table 2** (the ANOVA table), plus a "what goes where" guide to text vs. tables vs. figures. A **CSV download** lets students rerun the analysis in jamovi.
 
 **Calculator.** A 🧮 **Calculator** button (bottom-right, on both tabs) opens a calculator with brackets, square, square root and powers, so students can work out squared deviations and divisions without leaving the page. Past answers can be clicked to reuse them.
