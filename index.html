@@ -191,6 +191,52 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 .tg{font-size:15px;}
 .pverdict{font-size:16px;margin-top:10px;line-height:1.5;}
 .tryit{margin-top:12px;background:#f5f4ef;border-radius:8px;padding:10px 13px;font-size:15px;line-height:1.7;}
+
+/* fill buttons, F info, Tukey, paper write-up, calculator */
+.cb.sm{font-size:14px;padding:6px 12px;font-weight:500;}
+.wshead{flex-wrap:wrap;}
+.fabout{background:#eef4fb;border:0.5px solid #b9d3f2;border-radius:10px;padding:12px 16px;}
+.fabout ul,.wgw{margin:6px 0 0 20px;font-size:15px;line-height:1.6;}
+.ftwrap{margin-top:14px;}
+.ftnote{font-size:15px;line-height:1.55;margin:4px 0 8px;}
+.ftscroll{max-height:330px;overflow:auto;border:1px solid #c9c8c0;border-radius:8px;}
+.ftab{border-collapse:separate;border-spacing:0;font-size:15px;width:100%;font-variant-numeric:tabular-nums;}
+.ftab th,.ftab td{padding:5px 10px;text-align:center;border-bottom:1px solid #e8e8e0;}
+.ftab thead th{position:sticky;top:0;background:#eeedea;z-index:1;}
+.ftab tbody th{background:#f5f4ef;position:sticky;left:0;}
+.ftab .corner{font-size:13px;white-space:nowrap;left:0;z-index:2;}
+.ftab th.hc,.ftab tr.hr th{background:#dbeafe;color:#1e4f8c;}
+.ftab td.hl{background:#eef4fb;}
+.ftab td.hit{background:#1e4f8c;color:#fff;font-weight:700;}
+.wt tr.tsig td{background:#f1faf6;}
+.paper{background:#fff;border:1px solid #c9c8c0;border-radius:10px;padding:20px 24px;font-family:Georgia,'Times New Roman',serif;color:#222;}
+.ph{font-size:20px;font-weight:700;margin-bottom:6px;}
+.ptext{font-size:17px;line-height:1.7;}
+.pcap{font-size:16px;margin-top:14px;}
+.ptab{border-collapse:collapse;margin-top:6px;font-size:16px;min-width:60%;font-variant-numeric:tabular-nums;}
+.ptab th,.ptab td{padding:5px 14px;text-align:center;}
+.ptab thead th{border-top:2px solid #222;border-bottom:1px solid #222;font-weight:700;}
+.ptab tbody tr:last-child td{border-bottom:2px solid #222;}
+.pfoot{font-size:14px;font-style:italic;margin-top:4px;}
+.calcbtn{position:fixed;right:18px;bottom:18px;z-index:50;padding:11px 18px;border-radius:999px;border:none;background:#1e4f8c;color:#fff;font:inherit;font-size:16px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.2);cursor:pointer;}
+.calc{position:fixed;right:18px;bottom:76px;z-index:60;width:300px;background:#fff;border:1px solid #c2c1b9;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.2);padding:12px;}
+.calc[hidden]{display:none;}
+.chead{display:flex;justify-content:space-between;align-items:center;font-size:16px;margin-bottom:8px;}
+.cx{border:none;background:none;font-size:24px;line-height:1;cursor:pointer;color:#73726c;}
+.cin{width:100%;font:inherit;font-size:19px;padding:8px 10px;border:1.5px solid #c2c1b9;border-radius:8px;font-variant-numeric:tabular-nums;}
+.cin:focus{outline:none;border-color:#1e4f8c;}
+.cout{min-height:22px;font-size:15px;color:#0f6e56;text-align:right;margin:3px 2px 6px;}
+.ckeys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.ckeys button{height:42px;font:inherit;font-size:18px;border:1px solid #d4d3cb;border-radius:8px;background:#f9f8f4;cursor:pointer;}
+.ckeys button:hover{background:#eeedea;}
+.ckeys .op{background:#eef4fb;color:#1e4f8c;font-weight:600;}
+.ckeys .fn{background:#f0efe9;font-size:16px;}
+.ckeys .eq{background:#1e4f8c;color:#fff;font-weight:700;}
+.chist{margin-top:8px;max-height:120px;overflow:auto;}
+.chrow{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:3px 6px;border-radius:5px;cursor:pointer;font-variant-numeric:tabular-nums;}
+.chrow:hover{background:#f5f4ef;}
+.chrow span{color:#73726c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+body{padding-bottom:80px;}
 @media (max-width:760px){
   .srcgrid,.rcards{grid-template-columns:1fr;}
   .prow{grid-template-columns:1fr;}
@@ -198,6 +244,10 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
   .side{position:static;}
 }
 @media (max-width:560px){
+  .calc{right:10px;left:10px;width:auto;bottom:70px;}
+  .calcbtn{right:12px;bottom:12px;}
+  .paper{padding:14px;}
+  .ptab{font-size:14px;}
   .scprompt{font-size:16px;min-height:0;}
   .scdots{order:5;flex-basis:100%;}
   .hgrid{grid-template-columns:1fr;}
@@ -219,7 +269,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
 
 <!-- ======================= TAB 1: EXPLORER ======================= -->
 <section class="pane on" id="pane-ex">
-<div class="note" style="margin-bottom:14px;">The same antibiotic trial as tab ②: 18 patients, three antibiotics, and the <b>number of days until each infection cleared</b>. Patients don't all recover in the same number of days. ANOVA asks <b>where that variation comes from</b> and splits it into two sources.</div>
+<div class="note" style="margin-bottom:14px;">The same antibiotic trial as tab ②: 18 patients and three antibiotics. <b>Factor variable:</b> antibiotic (A, B, C). <b>Response variable:</b> number of days until the infection cleared. Patients don't all recover in the same number of days. ANOVA asks <b>where that variation comes from</b> and splits it into two sources.</div>
 
 <div class="srcgrid">
   <div class="src" style="border-top-color:#8a8984;">
@@ -288,7 +338,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
   <div class="tryit">
     <div><b>Try:</b> drag the first slider all the way to <i>all the same</i>. Watch the orange lines and F.</div>
     <div><b>Try:</b> drag the second slider to <i>very variable</i>. Watch the blue lines and F.</div>
-    <div><b>Try:</b> tick all three line types. Each gray line equals its orange piece plus its blue piece.</div>
+    <div><b>Try:</b> tick all three line types. Each patient's gray line equals their group's orange line plus their own blue line.</div>
   </div>
 </div>
 </section>
@@ -321,7 +371,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
   <p class="howto">Click any white box, type your answer and press <b>Enter</b>. Green = correct, red = try again. The help panel follows whichever box you're in — use <b>💡 Hint</b> if you're stuck, or <b>Show work</b> to see the full calculation. Suggested order: work left-to-right, top-to-bottom.</p>
 
   <div class="ws">
-    <div class="wshead"><span class="wsn">1</span> Summary statistics</div>
+    <div class="wshead"><span class="wsn">1</span> Summary statistics<span style="flex:1"></span><button class="cb sm" onclick="fillSlot(1)">Fill in all summary statistics</button></div>
     <div class="tscroll"><table class="wt" id="sumtab"></table></div>
     <div class="gmrow" id="gmrow"></div>
     <div id="helpslot1"></div>
@@ -333,7 +383,7 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
   </div>
 
   <div class="ws">
-    <div class="wshead"><span class="wsn">2</span> ANOVA table</div>
+    <div class="wshead"><span class="wsn">2</span> ANOVA table<span style="flex:1"></span><button class="cb sm" onclick="fillSlot(2)">Fill in the ANOVA table</button></div>
     <div class="tscroll"><table class="wt" id="anovatab"></table></div>
     <div class="micro" style="margin-top:6px;">The app keeps every decimal. If you rounded along the way, answers within about 1.5% count as correct.</div>
     <div id="helpslot2"></div>
@@ -346,15 +396,24 @@ canvas{display:block;width:100%;border:0.5px solid #c2c1b9;border-radius:8px;bac
     <div id="p3body"></div>
   </div>
   <div class="ws locked" id="part4">
-    <div class="wshead"><span class="wsn">4</span> Which antibiotics are different? (Tukey post-hoc)</div>
+    <div class="wshead"><span class="wsn">4</span> Which antibiotics are different? Tukey post-hoc test</div>
     <div id="p4body"></div>
   </div>
   <div class="ws locked" id="part5">
-    <div class="wshead"><span class="wsn">5</span> Write it up</div>
+    <div class="wshead"><span class="wsn">5</span> Write it up for a research paper</div>
     <div id="p5body"></div>
   </div>
 </section>
 
+<button id="calcbtn" class="calcbtn" onclick="calcToggle()" aria-expanded="false" aria-controls="calc">🧮 Calculator</button>
+<div id="calc" class="calc" hidden role="dialog" aria-label="Calculator">
+  <div class="chead"><b>Calculator</b><button class="cx" onclick="calcToggle(false)" aria-label="Close calculator">×</button></div>
+  <input id="cin" class="cin" autocomplete="off" spellcheck="false" placeholder="e.g. (12-13)²+(16-13)²" oninput="calcPreview()" onkeydown="if(event.key==='Enter'){event.preventDefault();calcEval();}">
+  <div id="cout" class="cout"></div>
+  <div class="ckeys"><button onclick="calcKey('(')" class="fn">(</button><button onclick="calcKey(')')" class="fn">)</button><button onclick="calcKey('√')" class="fn">√</button><button onclick="calcKey('÷')" class="op">÷</button><button onclick="calcKey('7')" class="">7</button><button onclick="calcKey('8')" class="">8</button><button onclick="calcKey('9')" class="">9</button><button onclick="calcKey('×')" class="op">×</button><button onclick="calcKey('4')" class="">4</button><button onclick="calcKey('5')" class="">5</button><button onclick="calcKey('6')" class="">6</button><button onclick="calcKey('−')" class="op">−</button><button onclick="calcKey('1')" class="">1</button><button onclick="calcKey('2')" class="">2</button><button onclick="calcKey('3')" class="">3</button><button onclick="calcKey('+')" class="op">+</button><button onclick="calcKey('0')" class="">0</button><button onclick="calcKey('.')" class="">.</button><button onclick="calcKey('x²')" class="fn">x²</button><button onclick="calcKey('=')" class="eq">=</button><button onclick="calcKey('C')" class="fn">C</button><button onclick="calcKey('⌫')" class="fn">⌫</button><button onclick="calcKey('ans')" class="fn">ans</button><button onclick="calcKey('^')" class="op">^</button></div>
+  <div id="chist" class="chist"></div>
+  <div class="micro" style="margin-top:4px;">Type or tap. Press Enter or = to calculate. Click a past answer to reuse it.</div>
+</div>
 <script>
 /* ================= shared math ================= */
 function lgam(z){if(z<.5)return Math.log(Math.PI/Math.sin(Math.PI*z))-lgam(1-z);z--;const g=[.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];let x=g[0];for(let i=1;i<9;i++)x+=g[i]/(z+i);const t=z+7.5;return .5*Math.log(2*Math.PI)+(z+.5)*Math.log(t)-t+Math.log(x);}
@@ -372,7 +431,7 @@ function phi(z){return Math.exp(-z*z/2)/Math.sqrt(2*Math.PI);}
 function rangeCDF(w,k){const a=-8,b=8,n=200,h=(b-a)/n;let s=0;for(let i=0;i<=n;i++){const z=a+i*h;const f=phi(z)*Math.pow(Math.max(0,Phi(z)-Phi(z-w)),k-1);s+=(i===0||i===n?1:(i%2?4:2))*f;}return Math.min(1,k*s*h/3);}
 function ptukey(q,k,v){if(q<=0)return 0;if(v>2000)return rangeCDF(q,k);const hi=1+10/Math.sqrt(v)+1,n=240,h=hi/n;const c=Math.log(2)+(v/2)*Math.log(v/2)-lgam(v/2);let s=0;for(let i=1;i<=n;i++){const x=i*h;const g=Math.exp(c+(v-1)*Math.log(x)-v*x*x/2);s+=(i===n?1:(i%2?4:2))*g*rangeCDF(q*x,k);}return Math.min(1,s*h/3);}
 function gauss(){let u,v,s;do{u=Math.random()*2-1;v=Math.random()*2-1;s=u*u+v*v;}while(s>=1||!s);return u*Math.sqrt(-2*Math.log(s)/s);}
-function fmtP(p){return p<.001?'< .001':p.toFixed(3).replace(/^0/,'');}
+function fmtP(p){return p<.001?'< 0.001':p.toFixed(3);}
 function f2(x){return (Math.round(x*100)/100).toFixed(2);}
 
 /* ================= tabs ================= */
@@ -440,7 +499,7 @@ function drawScene(cvId,st,D,yr){
   const dpr=Math.min(devicePixelRatio||1,2),W=Math.max(300,Math.round(cv.clientWidth||800)),H=W<560?340:400;
   cv.width=W*dpr;cv.height=H*dpr;cv.style.height='auto';cv.style.aspectRatio=W+'/'+H;
   const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
-  const small=W<560,PL=small?44:60,PR=small?10:18,PT=26,PB=small?52:48;
+  const small=W<560,PL=small?58:78,PR=small?10:18,PT=26,PB=small?74:72;
   const yMin=yr[0],yMax=yr[1];
   const Y=v=>PT+(yMax-v)/(yMax-yMin)*(H-PT-PB);
   const X=u=>PL+(u+0.5)/D.U*(W-PL-PR);
@@ -449,7 +508,7 @@ function drawScene(cvId,st,D,yr){
   ctx.font=(small?12:14)+'px system-ui,sans-serif';ctx.textAlign='right';ctx.fillStyle='rgba(60,60,58,.7)';
   const step=(yMax-yMin)>30?10:5;
   for(let v=Math.ceil(yMin/step)*step;v<=yMax+1e-9;v+=step){const y=Y(v);ctx.strokeStyle='rgba(80,80,78,.10)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(W-PR,y);ctx.stroke();ctx.fillText(v,PL-8,y+4);}
-  ctx.save();ctx.translate(small?11:15,(PT+H-PB)/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('Days until infection cleared',0,0);ctx.restore();
+  ctx.save();ctx.translate(small?12:16,(PT+H-PB)/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.font='700 '+(small?12:14)+'px system-ui,sans-serif';ctx.fillStyle='#3d3d3a';ctx.fillText('Response variable',0,0);ctx.font=(small?12:14)+'px system-ui,sans-serif';ctx.fillStyle='rgba(60,60,58,.8)';ctx.fillText(small?'days to clear':'days until infection cleared',0,small?15:18);ctx.restore();
   let gmLabel=null;const mLabels=[];
   const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
   const s=ease(st.sortT);
@@ -459,8 +518,8 @@ function drawScene(cvId,st,D,yr){
   const dimOf=p=>hp&&p!==hp?1-0.8*st.hl:1;
   // group labels along the bottom
   ctx.textAlign='center';ctx.font='600 '+(small?12:14)+'px system-ui,sans-serif';
-  if(st.colorT<0.99){ctx.globalAlpha=1-st.colorT;ctx.fillStyle='rgba(60,60,58,.8)';ctx.fillText('All '+D.N+' patients, mixed together',(PL+W-PR)/2,H-PB+28);}
-  if(st.colorT>0.01){ctx.globalAlpha=st.colorT;D.ns.forEach((n,g)=>{const u0=D.pts.find(p=>p.g===g).ug;ctx.fillStyle=GCOL[g];ctx.fillText(small?GNM[g].replace('Antibiotic ',''):GNM[g],(X(u0)+X(u0+n-1))/2,H-PB+28);});}
+  if(st.colorT<0.99){ctx.globalAlpha=1-st.colorT;ctx.fillStyle='rgba(60,60,58,.8)';ctx.fillText('All '+D.N+' patients, mixed together',(PL+W-PR)/2,H-PB+26);ctx.font=(small?12:14)+'px system-ui,sans-serif';ctx.fillText('(factor variable not used yet)',(PL+W-PR)/2,H-PB+50);ctx.font='600 '+(small?12:14)+'px system-ui,sans-serif';}
+  if(st.colorT>0.01){ctx.globalAlpha=st.colorT;D.ns.forEach((n,g)=>{const u0=D.pts.find(p=>p.g===g).ug;ctx.fillStyle=GCOL[g];ctx.fillText(small?GNM[g].replace('Antibiotic ',''):GNM[g],(X(u0)+X(u0+n-1))/2,H-PB+26);});ctx.fillStyle='#3d3d3a';ctx.font='700 '+(small?12:14)+'px system-ui,sans-serif';ctx.fillText('Factor variable: antibiotic',(PL+W-PR)/2,H-PB+52);}
   ctx.globalAlpha=1;
   // grand mean line
   if(st.gmL>0){const y=Y(D.gm);ctx.strokeStyle='rgba(60,60,58,.55)';ctx.setLineDash([7,5]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(PL+(W-PL-PR)*st.gmL,y);ctx.stroke();ctx.setLineDash([]);
@@ -470,15 +529,18 @@ function drawScene(cvId,st,D,yr){
     const lx=X(u0+n-0.55)+4,ga=ctx.globalAlpha;if(!small)mLabels.push(()=>{ctx.globalAlpha=ga;ctx.font='600 14px system-ui,sans-serif';lbl(ctx,'x̄ = '+nice(D.means[g]),Math.min(lx,W-PR-64),y-8,'left',GCOL[g]);ctx.globalAlpha=1;});});ctx.globalAlpha=1;}
   // deviation lines
   const vis=[st.totalL>0.01,st.betweenL>0.01,st.withinL>0.01];const nv=vis.filter(Boolean).length;let idx=0;
-  const oBW=vis[1]&&vis[2]?off*0.45:0;const offs=[vis[1]||vis[2]?-off*1.3:0,-oBW,oBW];
+  const offs=[vis[2]?-off*0.9:0,0,vis[0]?off*0.9:0];
   const seg=(x,y1,y2,c,a,w)=>{if(Math.abs(y2-y1)<0.5)return;ctx.globalAlpha=a;ctx.strokeStyle=c;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x,y1);ctx.lineTo(x,y2);ctx.stroke();ctx.globalAlpha=1;};
   const lw=small?2:3;
   D.pts.forEach(p=>{
     const x=px(p),m=D.means[p.g],d=dimOf(p);
     if(st.totalL>0.01)seg(x+offs[0],Y(D.gm),Y(D.gm+(p.v-D.gm)*st.totalL),GRAY,d,lw);
-    if(st.betweenL>0.01)seg(x+offs[1],Y(D.gm),Y(D.gm+(m-D.gm)*st.betweenL),ORG,d,lw);
     if(st.withinL>0.01)seg(x+offs[2],Y(m),Y(m+(p.v-m)*st.withinL),BLU,d,lw);
   });
+  // between groups: ONE orange line per group, from the group mean to the grand mean
+  if(st.betweenL>0.01){D.ns.forEach((n,g)=>{const u0=D.pts.find(p=>p.g===g).ug,uc=u0+(n-1)/2+(n%2?0.5:0),x=X(uc),m=D.means[g];
+    const dg=hp&&hp.g!==g?1-0.8*st.hl:1;seg(x,Y(D.gm),Y(D.gm+(m-D.gm)*st.betweenL),ORG,dg,small?5:7);
+    if(st.betweenL>0.9){ctx.font='700 '+(small?12:14)+'px system-ui,sans-serif';ctx.globalAlpha=dg;lbl(ctx,'×'+n,x+8,(Y(m)+Y(D.gm))/2+5,'left','#c2491b');ctx.globalAlpha=1;}});}
   // dots
   D.pts.forEach(p=>{
     const x=px(p),m=D.means[p.g],v=p.v+(m-p.v)*st.collapseT,d=dimOf(p),big=hp===p?st.hl:0;
@@ -523,10 +585,10 @@ function buildScenes(){
     d:{totalL:1,ssT:D.SST},play:[[{totalL:1,ssT:D.SST},1600]],r:()=>'<div class="rcards">'+cT+'</div>'},
    {t:'Sort the patients by antibiotic',p:'Now watch the same patients sort themselves by which antibiotic they got. Each colored bar is that antibiotic\'s <b>group mean</b> (A = '+m[0]+', B = '+m[1]+', C = '+m[2]+' days). Do the antibiotics look different?',
     d:{totalL:0,sortT:1,colorT:1,gmSeg:1},play:[[{totalL:0},350],200,[{sortT:1,colorT:1},1500],[{gmSeg:1},700]],r:()=>'<div class="rcards">'+cT+'</div>'},
-   {t:'Between groups: the signal',p:'Pretend every patient recovered in exactly their group\'s average time. Watch the dots slide onto their group mean. Now the only differences left are <b style="color:#c2491b">between the antibiotics</b>. Each orange line runs from the grand mean to a group mean, counted once for every patient in that group. Square and add them to get <b>SS(B)</b>.',
-    d:{collapseT:1,betweenL:1,ssB:D.SSB},play:[[{collapseT:1},1200],250,[{betweenL:1,ssB:D.SSB},1200]],r:()=>'<div class="rcards">'+cT+cB+'</div>'},
-   {t:'Within groups: residual error',p:'Now put the patients back where they really were. Each <b style="color:#1e6bb8">blue line</b> is a patient\'s distance from <i>their own</i> group\'s mean. These are differences among patients who got the <b>same</b> antibiotic, from things like age, immune system, or how bad the infection was. The antibiotic can\'t explain this leftover, so it is called the <b>within-group</b>, <b>residual</b>, or <b>error</b> variation. Square and add to get <b>SS(W)</b>.',
-    d:{betweenL:0,collapseT:0,withinL:1,ssW:D.SSW},play:[[{betweenL:0},300],[{collapseT:0},1200],[{withinL:1,ssW:D.SSW},1300]],r:()=>'<div class="rcards">'+cT+cB+cW+'</div>'},
+   {t:'Between groups: the signal',p:'Now focus on the <b>group means</b>. Each <b style="color:#c2491b">orange line</b> is the distance from one antibiotic\'s mean to the grand mean, so there is <b>one line per group</b>. This is the variation <b style="color:#c2491b">between the antibiotics</b>. To get <b>SS(B)</b>, square each orange line and count it once for every patient in that group (×n), then add the three.',
+    d:{dotA:0.35,betweenL:1,ssB:D.SSB},play:[[{dotA:0.35},500],[{betweenL:1,ssB:D.SSB},1400]],r:()=>'<div class="rcards">'+cT+cB+'</div>'},
+   {t:'Within groups: residual error',p:'Now look at the individual patients again. Each <b style="color:#1e6bb8">blue line</b> is a patient\'s distance from <i>their own</i> group\'s mean. These are differences among patients who got the <b>same</b> antibiotic, from things like age, immune system, or how bad the infection was. The antibiotic can\'t explain this leftover, so it is called the <b>within-group</b>, <b>residual</b>, or <b>error</b> variation. Square and add to get <b>SS(W)</b>.',
+    d:{betweenL:0,dotA:1,withinL:1,ssW:D.SSW},play:[[{betweenL:0},300],[{dotA:1},500],[{withinL:1,ssW:D.SSW},1400]],r:()=>'<div class="rcards">'+cT+cB+cW+'</div>'},
    {t:'One patient, split in two',p:'Follow one patient on '+GNM[hp.g]+' who took <b>'+nice(hp.v)+' days</b>. Their total distance from the grand mean ('+sgn(hp.v-D.gm)+') splits exactly into two pieces: their group\'s distance from the grand mean (<b style="color:#c2491b">'+sgn(hm-D.gm)+', between</b>) plus their own distance from their group mean (<b style="color:#1e6bb8">'+sgn(hp.v-hm)+', within</b>). Every patient splits this way.',
     d:{withinL:0,hl:1,split:1},play:[[{withinL:0},300],[{hl:1},600],[{split:1},2200]],
     r:()=>'<div class="rtxt big">('+nice(hp.v)+' − '+nice(D.gm)+') = ('+nice(hm)+' − '+nice(D.gm)+') + ('+nice(hp.v)+' − '+nice(hm)+')<br><span style="color:#5f5e58">total '+sgn(hp.v-D.gm)+'</span> = <span style="color:#c2491b">between '+sgn(hm-D.gm)+'</span> + <span style="color:#1e6bb8">within '+sgn(hp.v-hm)+'</span></div>'},
@@ -604,7 +666,7 @@ function drawPlay(){
    '<tr><td style="color:#1e6bb8">Within groups (residual / error)</td><td>'+f2(D.SSW)+'</td><td>'+D.dfW+'</td><td>'+f2(D.MSW)+'</td><td class="na"></td><td class="na"></td></tr>'+
    '<tr><td>Total</td><td>'+f2(D.SST)+'</td><td>'+(D.N-1)+'</td><td class="na"></td><td class="na"></td><td class="na"></td></tr>';
   const sig=D.p<.05,v=document.getElementById('pverdict');
-  v.innerHTML=D.SSB<1e-6?'✗ <b>Not significant</b> (p = 1.000). There is no between-group signal: all three antibiotics have the same mean, so every bit of variation is residual error.':(sig?'✓ <b>Significant</b> (p '+(D.p<.001?'< .001':'= '+fmtP(D.p))+'). The between-group signal is large compared with the residual noise.':'✗ <b>Not significant</b> (p = '+fmtP(D.p)+'). The residual noise is too large for us to tell the antibiotics apart.');
+  v.innerHTML=D.SSB<1e-6?'✗ <b>Not significant</b> (p = 1.000). There is no between-group signal: all three antibiotics have the same mean, so every bit of variation is residual error.':(sig?'✓ <b>Significant</b> (p '+(D.p<.001?'< 0.001':'= '+fmtP(D.p))+'). The between-group signal is large compared with the residual noise.':'✗ <b>Not significant</b> (p = '+fmtP(D.p)+'). The residual noise is too large for us to tell the antibiotics apart.');
   v.style.color=sig?'#0f6e56':'#73726c';
 }
 function resetPlay(){document.getElementById('sa').value=1;document.getElementById('sb').value=1;drawPlay();}
@@ -842,13 +904,13 @@ function assumptionNote(){return '<div style="margin-top:8px;"><b>Assumption che
 function updateStatus(){
   const hk=S.g.map((x,gi)=>devOK(gi)?1:0).join('');if(hk!==helperKey){helperKey=hk;renderHelper();}
   const nd=CELLS.filter(c=>isDone(c.id)).length,tot=CELLS.length+3;
-  const extra=(dec.done?1:0)+(tk.done?1:0)+(tk.done?1:0);
+  const extra=dec.done?3:0;
   document.getElementById('progfill').style.width=((nd+extra)/tot*100)+'%';
-  document.getElementById('progtxt').textContent=nd+' of '+CELLS.length+' boxes'+(dec.done?' · decision ✓':'')+(tk.done?' · post-hoc ✓':'');
+  document.getElementById('progtxt').textContent=nd+' of '+CELLS.length+' boxes'+(dec.done?' · decision ✓':'');
   const fDone=isDone('f');
   const pc=document.getElementById('pcell');
-  if(pc){pc.innerHTML=fDone?'<b>'+(S.p<.0001?'< .0001':S.p.toFixed(4).replace(/^0/,''))+'</b>':'<span class="mut">after F</span>';}
-  renderPart3(fDone);renderPart4(dec.done);renderPart5(tk.done);
+  if(pc){pc.innerHTML=fDone?'<b>'+fmtP4(S.p)+'</b>':'<span class="mut">after F</span>';}
+  renderPart3(fDone);renderPart4(dec.done);renderPart5(dec.done);
 }
 function renderPart3(open){
   const el=document.getElementById('part3'),b=document.getElementById('p3body');
@@ -856,69 +918,136 @@ function renderPart3(open){
   if(!open){b.innerHTML='<p class="mut">Unlocks when your F is correct.</p>';p3drawn=false;return;}
   if(p3drawn){document.getElementById('fb_dec').innerHTML=dec.fb;return;}
   p3drawn=true;
-  b.innerHTML='<p class="stprompt">The p-value isn\'t something we calculate by hand — it\'s the area in the right tail of the F-distribution with df = ('+S.dfB+', '+S.dfW+'), beyond your F. The purple line is the critical value at α = .05.</p><canvas id="fcv2"></canvas>'+
-   '<p class="stprompt" style="margin-top:10px;">F('+S.dfB+', '+S.dfW+') = '+f2(S.F)+' · critical F = '+f2(S.Fc)+' · <b>p = '+(S.p<.0001?'< .0001':S.p.toFixed(4))+'</b><br><b>What is your decision at α = .05?</b></p>'+
-   ['Reject H₀ — at least one antibiotic has a different mean recovery time','Fail to reject H₀ — not enough evidence the means differ'].map((c,ci)=>'<label class="choice"><input type="radio" name="dec" value="'+ci+'"'+(dec.sel===ci?' checked':'')+' onchange="dec.sel='+ci+'">'+c+'</label>').join('')+
+  b.innerHTML=
+   '<div class="fabout"><div class="lbl" style="color:#1e4f8c">About the F-distribution</div><ul>'+
+   '<li><b>F = MS(B) ÷ MS(W)</b> is a ratio of two variances: the between-group signal divided by the within-group (residual) noise.</li>'+
+   '<li>If H₀ is true (all antibiotics equal), both MS values estimate the same patient-to-patient variation, so <b>F is usually close to 1</b>.</li>'+
+   '<li>F <b>can\'t be negative</b> (it is built from squared distances) and the curve is <b>skewed to the right</b>: big F values are rare when H₀ is true.</li>'+
+   '<li>Its shape depends on <b>two degrees of freedom</b>: df₁ = k − 1 = '+S.dfB+' (between, the numerator) and df₂ = N − k = '+S.dfW+' (within, the denominator). This one is F('+S.dfB+', '+S.dfW+').</li>'+
+   '<li>The <b>critical value</b> cuts off the top 5% of the curve (α = 0.05). The <b>p-value</b> is the area to the right of your F.</li></ul></div>'+
+   '<canvas id="fcv2" style="margin-top:12px;"></canvas>'+
+   '<p class="stprompt" style="margin-top:10px;">F('+S.dfB+', '+S.dfW+') = '+f2(S.F)+' · critical F = '+f2(S.Fc)+' · <b>p = '+fmtP4(S.p)+'</b></p>'+
+   fTableHTML()+
+   '<p class="stprompt" style="margin-top:14px;"><b>What is your decision at α = 0.05?</b></p>'+
+   ['Reject H₀: at least one antibiotic has a different mean recovery time','Fail to reject H₀: not enough evidence the means differ'].map((c,ci)=>'<label class="choice"><input type="radio" name="dec" value="'+ci+'"'+(dec.sel===ci?' checked':'')+' onchange="dec.sel='+ci+'">'+c+'</label>').join('')+
    '<div class="stbtns"><button class="cb primary" onclick="checkDec()">Check</button></div><div class="fb" id="fb_dec">'+dec.fb+'</div>';
   drawF('fcv2',S.F,S.dfB,S.dfW,true);
+  const hr=document.getElementById('fthit');if(hr){const box=hr.closest('.ftscroll');box.scrollTop=Math.max(0,hr.offsetTop-box.clientHeight/2);}
 }
-function decWork(){return S.p<.05?('p = '+fmtP(S.p)+' < .05 (and F = '+f2(S.F)+' > '+f2(S.Fc)+'), so we <b>reject H₀</b>. At least one antibiotic has a different mean recovery time.'):('p = '+fmtP(S.p)+' ≥ .05 (and F = '+f2(S.F)+' < '+f2(S.Fc)+'), so we <b>fail to reject H₀</b>. Not enough evidence that the antibiotics differ.');}
+function fmtP4(p){return p<.0001?'< 0.0001':p.toFixed(4);}
+function fTableHTML(){
+  const cols=[1,2,3,4,5,6,8,10];if(!cols.includes(S.dfB))cols.push(S.dfB);cols.sort((a,b)=>a-b);
+  let rows=[];for(let i=1;i<=30;i++)rows.push(i);rows.push(40,60,120);if(!rows.includes(S.dfW))rows.push(S.dfW);rows.sort((a,b)=>a-b);
+  let h='<div class="ftwrap"><div class="lbl" style="color:#1e4f8c">F-table: critical values of F for α = 0.05</div>'+
+   '<p class="ftnote">Go across to the column for <b>df₁ = '+S.dfB+'</b> (between) and down to the row for <b>df₂ = '+S.dfW+'</b> (within). Where they meet is the critical value, <b>'+f2(S.Fc)+'</b>. Your F = '+f2(S.F)+' is '+(S.F>S.Fc?'<b>bigger</b>, so p < 0.05.':'<b>smaller</b>, so p > 0.05.')+'</p>'+
+   '<div class="ftscroll"><table class="ftab"><thead><tr><th class="corner">df₂ ↓ &nbsp; df₁ →</th>'+cols.map(c=>'<th class="'+(c===S.dfB?'hc':'')+'">'+c+'</th>').join('')+'</tr></thead><tbody>';
+  rows.forEach(r=>{h+='<tr'+(r===S.dfW?' id="fthit" class="hr"':'')+'><th>'+r+'</th>'+cols.map(c=>'<td class="'+(c===S.dfB&&r===S.dfW?'hit':(c===S.dfB||r===S.dfW?'hl':''))+'">'+fCrit(.05,c,r).toFixed(2)+'</td>').join('')+'</tr>';});
+  return h+'</tbody></table></div></div>';
+}
+function decWork(){return S.p<.05?('p = '+fmtP(S.p)+' < 0.05 (and F = '+f2(S.F)+' > '+f2(S.Fc)+'), so we <b>reject H₀</b>. At least one antibiotic has a different mean recovery time.'):('p = '+fmtP(S.p)+' ≥ 0.05 (and F = '+f2(S.F)+' < '+f2(S.Fc)+'), so we <b>fail to reject H₀</b>. Not enough evidence that the antibiotics differ.');}
 function checkDec(){
   if(dec.sel===null){dec.fb='<span class="badt">Pick an answer first.</span>';}
   else if(dec.sel===(S.p<.05?0:1)){dec.fb='<span class="good">✓ Correct.</span> '+decWork();dec.done=true;}
-  else dec.fb='<span class="badt">Not quite.</span> Is p smaller than α = .05? (Same question: is F bigger than the critical F?)';
+  else dec.fb='<span class="badt">Not quite.</span> Is p smaller than α = 0.05? (Same question: is F bigger than the critical F?)';
   updateStatus();
 }
+const sigWord=p=>p<.05?'<b style="color:#0f6e56">Significantly different</b>':'Not significantly different';
 function renderPart4(open){
   const el=document.getElementById('part4'),b=document.getElementById('p4body');
   el.classList.toggle('locked',!open);
   if(!open){b.innerHTML='<p class="mut">Unlocks after the decision.</p>';return;}
-  if(b.dataset.drawn==='1'&&!tk.redraw){document.getElementById('fb_tk').innerHTML=tk.fb;document.getElementById('tkwork').style.display=tk.done?'':'none';return;}
-  b.dataset.drawn='1';tk.redraw=false;
-  b.innerHTML='<p class="stprompt">'+(S.p<.05?'ANOVA says <i>at least one</i> mean differs — but not which. ':'<b>Your ANOVA was not significant</b>, so normally you would stop here — post-hoc tests only follow a significant ANOVA. You can still look, for practice. ')+'Tick every pair you think is significantly different, then check against Tukey.</p><div style="margin-bottom:8px;">'+
-   S.pairs.map(pr=>'<span class="formula" style="font-size:17px;margin-right:6px;">'+S.g[pr.j].name+' − '+S.g[pr.i].name+' = '+f2(pr.diff)+' days</span>').join('')+'</div>'+
-   S.pairs.map((pr,k)=>'<label class="choice"><input type="checkbox" name="tk" value="'+k+'"'+(tk.sel[k]?' checked':'')+' onchange="tk.sel['+k+']=this.checked">'+S.g[pr.i].name+' vs '+S.g[pr.j].name+'</label>').join('')+
-   '<div class="stbtns"><button class="cb primary" onclick="checkTk()">Check</button><button class="hbtn" style="margin:0" onclick="document.getElementById(\'tkhint\').classList.toggle(\'open\')">💡 Hint</button><button class="hbtn" style="margin:0" onclick="tk.done=true;tk.fb=\'\';updateStatus()">Show Tukey results</button></div><div class="fb" id="fb_tk">'+tk.fb+'</div>'+
-   '<div class="hw hint" id="tkhint"><div class="lbl">Hint</div>Tukey compares each gap to the noise (MS(W) = '+f2(S.MSW)+') and keeps the overall α at .05. With unequal group sizes, each pair gets its own yardstick — the <b>minimum significant difference</b>. If a gap (ignore the sign) is bigger than its yardstick, that pair is different:<br>'+S.pairs.map(pr=>S.g[pr.i].name+' vs '+S.g[pr.j].name+': gap '+f2(Math.abs(pr.diff))+' vs. yardstick '+f2(pr.msd)).join('<br>')+'</div>'+
-   '<div class="hw work open" id="tkwork" style="'+(tk.done?'':'display:none')+'"><div class="lbl">Tukey results</div><table class="dev"><tr><th style="text-align:left">Comparison</th><th>Mean diff. (days)</th><th>Tukey p</th><th></th></tr>'+S.pairs.map(pr=>'<tr><td style="text-align:left">'+S.g[pr.i].name+' vs '+S.g[pr.j].name+'</td><td>'+f2(pr.diff)+'</td><td>'+fmtP(pr.p)+'</td><td>'+(pr.p<.05?'<b style="color:#0f6e56">different</b>':'n.s.')+'</td></tr>').join('')+'</table><br><span class="mut">Tukey-Kramer (handles unequal n). In jamovi: ANOVA → One-Way ANOVA → Post-Hoc Tests → Tukey.</span></div>';
+  tk.done=true;
+  if(b.dataset.drawn==='1')return;b.dataset.drawn='1';
+  const sig=S.pairs.filter(p=>p.p<.05),ns=S.pairs.filter(p=>p.p>=.05);
+  b.innerHTML='<p class="stprompt">'+(S.p<.05?'ANOVA tells us that <i>at least one</i> antibiotic differs, but not <i>which</i>. ':'<b>Your ANOVA was not significant</b>, so normally you would stop here, because post-hoc tests only follow a significant ANOVA. The results are shown for practice. ')+
+   'Tukey\'s post-hoc test compares every pair of antibiotics while keeping the overall chance of a false positive at α = 0.05.</p>'+
+   '<div class="tscroll"><table class="wt" style="min-width:520px"><thead><tr><th>Comparison</th><th>Mean difference (days)</th><th>Tukey p-value</th><th>Result</th></tr></thead><tbody>'+
+   S.pairs.map(pr=>'<tr class="'+(pr.p<.05?'tsig':'')+'"><td class="rl">'+S.g[pr.i].name+' vs '+S.g[pr.j].name+'</td><td>'+f2(Math.abs(pr.diff))+'</td><td>'+fmtP(pr.p)+'</td><td>'+sigWord(pr.p)+'</td></tr>').join('')+'</tbody></table></div>'+
+   '<p class="stprompt" style="margin-top:12px;"><b>What it means:</b> '+(sig.length?sig.map(pr=>{const f=pr.diff<0?pr.j:pr.i,s=pr.diff<0?pr.i:pr.j;return S.g[f].name+' cleared infections '+f2(Math.abs(pr.diff)).replace(/\.00$/,'')+' days faster than '+S.g[s].name;}).join('; ')+'.':'No pair of antibiotics is significantly different.')+
+   (ns.length&&sig.length?' '+ns.map(pr=>S.g[pr.i].name+' and '+S.g[pr.j].name).join('; ')+' were not significantly different.':'')+'</p>'+
+   '<div class="stbtns"><button class="hbtn" style="margin:0" onclick="document.getElementById(\'tkhint\').classList.toggle(\'open\')">How does Tukey decide?</button></div>'+
+   '<div class="hw hint" id="tkhint"><div class="lbl">How Tukey decides</div>Tukey compares each gap between two means with the residual noise (MS(W) = '+f2(S.MSW)+'). Because the groups are different sizes, each pair gets its own yardstick, the <b>minimum significant difference</b>. If the gap is bigger than its yardstick, the pair is significantly different:<br>'+S.pairs.map(pr=>S.g[pr.i].name+' vs '+S.g[pr.j].name+': gap '+f2(Math.abs(pr.diff))+' vs. yardstick '+f2(pr.msd)).join('<br>')+'</div>'+
+   '<p class="mut" style="margin-top:8px;">Tukey-Kramer (handles unequal n). In jamovi: ANOVA → One-Way ANOVA → Post-Hoc Tests → Tukey.</p>';
 }
-function checkTk(){
-  const cor=S.pairs.map(p=>p.p<.05);const wrong=tk.sel.filter((s,k)=>s!==cor[k]).length;
-  if(!wrong){tk.fb='<span class="good">✓ Matches Tukey!</span>';tk.done=true;}
-  else tk.fb='<span class="badt">Not quite — '+wrong+' of the 3 pairs '+(wrong===1?'doesn\'t':'don\'t')+' match Tukey.</span> Try the hint.';
-  updateStatus();
+function checkTk(){}
+/* compact letter display: groups sharing a letter are not significantly different */
+function tukeyLetters(){
+  const ord=S.g.map((g,i)=>i).sort((a,b)=>S.g[b].mean-S.g[a].mean);
+  const nsig=(a,b)=>{const pr=S.pairs.find(p=>(p.i===a&&p.j===b)||(p.i===b&&p.j===a));return pr.p>=.05;};
+  const sets=[];
+  for(let s=0;s<ord.length;s++){let e=s;while(e+1<ord.length&&ord.slice(s,e+2).every((a,x,arr)=>arr.every(b=>a===b||nsig(a,b))))e++;
+    const set=ord.slice(s,e+1);if(!sets.some(t=>set.every(x=>t.includes(x))))sets.push(set);}
+  const L=S.g.map(()=>'');sets.forEach((set,k)=>set.forEach(i=>{L[i]+='abcdefgh'[k];}));return L;
 }
 function renderPart5(open){
   const el=document.getElementById('part5'),b=document.getElementById('p5body');
   el.classList.toggle('locked',!open);
-  if(!open){b.innerHTML='<p class="mut">Unlocks after the post-hoc test.</p>';return;}
+  if(!open){b.innerHTML='<p class="mut">Unlocks after the decision.</p>';return;}
   if(b.dataset.drawn==='1')return;b.dataset.drawn='1';
-  const sig=S.pairs.filter(p=>p.p<.05);
-  b.innerHTML='<p class="stprompt">Put it in words a doctor could use. Copy your complete result into Nearpod / Canvas, then write your conclusion in one or two sentences.</p><div class="copybox" id="resulttext">'+resultsText()+'</div><div class="toolbar"><button class="cb primary" onclick="copyResults()">Copy results</button><button class="cb" onclick="downloadCSV()">⬇ Data for jamovi (.csv)</button><span id="copied" style="font-size:14px;color:#0f6e56;"></span></div>'+
-   '<div class="hw hint open" style="margin-top:12px;"><div class="lbl">Sentence starter</div>A one-way ANOVA showed that mean days to recovery '+(S.p<.05?'<b>differed</b>':'<b>did not differ significantly</b>')+' among the three antibiotics, F('+S.dfB+', '+S.dfW+') = '+f2(S.F)+', p '+(S.p<.001?'< .001':'= '+fmtP(S.p))+'. '+(S.p<.05?'Tukey post-hoc tests showed that … (which antibiotics differed, and by how many days?)':'')+'</div>'+
-   '<div class="hw work open"><div class="lbl">Think about it</div>Which antibiotic would you prescribe? Two antibiotics weren\'t significantly different — does that mean they work equally well? What else would a doctor want to know (side effects, cost, antibiotic resistance)?</div>';
+  const g=S.g,sig=S.p<.05,ms=x=>f2(x.mean)+' ± '+f2(x.sd),L=sig?tukeyLetters():null;
+  const pS=p=>p<.001?'p < 0.001':'p = '+p.toFixed(3);
+  let res='Mean time until the infection cleared '+(sig?'differed significantly':'did not differ significantly')+' among the three antibiotics (one-way ANOVA: F('+S.dfB+', '+S.dfW+') = '+f2(S.F)+', '+pS(S.p)+'; Table 2). ';
+  if(sig){
+    const sp=S.pairs.filter(p=>p.p<.05),np=S.pairs.filter(p=>p.p>=.05);
+    const byF={};sp.forEach(pr=>{const f=pr.diff<0?pr.j:pr.i,sl=pr.diff<0?pr.i:pr.j;(byF[f]=byF[f]||[]).push([sl,pr.p]);});
+    res+='Tukey post-hoc comparisons showed that '+Object.keys(byF).map(f=>'patients given '+g[f].name+' recovered faster ('+ms(g[f])+' days, mean ± SD) than patients given '+byF[f].map(([sl,pp])=>g[sl].name+' ('+ms(g[sl])+' days; '+pS(pp)+')').join(' or ')).join(', and ')+'. ';
+    res+=np.length?np.map(pr=>'Recovery times for '+g[pr.i].name+' and '+g[pr.j].name+' did not differ significantly ('+pS(pr.p)).join('; ')+'; Table 1).':'See Table 1.';
+  }else{const lo=g.reduce((a,x)=>x.mean<a.mean?x:a),hi=g.reduce((a,x)=>x.mean>a.mean?x:a);res+='Mean recovery times ranged from '+f2(lo.mean)+' days ('+lo.name+') to '+f2(hi.mean)+' days ('+hi.name+') (Table 1).';}
+  b.innerHTML='<p class="stprompt">This is how the result would be reported in the <b>Results section of a research paper</b>: the test and its conclusion go in the <b>text</b>, and the numbers go in <b>tables</b> (or a figure).</p>'+
+   '<div class="paper">'+
+   '<div class="ph">Results</div><p class="ptext">'+res+'</p>'+
+   '<p class="pcap"><b>Table 1.</b> Days until the infection cleared for patients given each antibiotic.</p>'+
+   '<table class="ptab"><thead><tr><th style="text-align:left">Antibiotic</th><th>n</th><th>Mean ± SD (days)</th>'+(sig?'<th>Tukey group</th>':'')+'</tr></thead><tbody>'+
+   g.map((x,i)=>'<tr><td style="text-align:left">'+x.name+'</td><td>'+x.n+'</td><td>'+ms(x)+'</td>'+(sig?'<td>'+L[i]+'</td>':'')+'</tr>').join('')+'</tbody></table>'+
+   (sig?'<p class="pfoot">Means that share a letter are not significantly different (Tukey test, α = 0.05).</p>':'')+
+   '<p class="pcap" style="margin-top:16px;"><b>Table 2.</b> One-way ANOVA of days until the infection cleared, with antibiotic as the factor.</p>'+
+   '<table class="ptab"><thead><tr><th style="text-align:left">Source</th><th>SS</th><th>df</th><th>MS</th><th>F</th><th>p</th></tr></thead><tbody>'+
+   '<tr><td style="text-align:left">Antibiotic (between groups)</td><td>'+f2(S.SSB)+'</td><td>'+S.dfB+'</td><td>'+f2(S.MSB)+'</td><td>'+f2(S.F)+'</td><td>'+fmtP(S.p)+'</td></tr>'+
+   '<tr><td style="text-align:left">Residual (within groups)</td><td>'+f2(S.SSW)+'</td><td>'+S.dfW+'</td><td>'+f2(S.MSW)+'</td><td></td><td></td></tr>'+
+   '<tr><td style="text-align:left">Total</td><td>'+f2(S.SST)+'</td><td>'+S.dfT+'</td><td></td><td></td><td></td></tr></tbody></table>'+
+   '</div>'+
+   '<div class="hw work open" style="margin-top:14px;"><div class="lbl">What goes where</div><ul class="wgw">'+
+   '<li><b>In the text:</b> which test you used, F(df₁, df₂), the p-value, and the <i>direction</i> of the differences (which antibiotic was faster and by how much), with the post-hoc results.</li>'+
+   '<li><b>In a table:</b> the descriptive statistics for each group (n, mean ± SD) and the ANOVA table. Point to each table from the text.</li>'+
+   '<li><b>Optional figure:</b> a box plot or bar chart of the means ± SD, with the Tukey letters above each bar.</li>'+
+   '<li><b>Leave out:</b> the hand calculations (grand mean, squared deviations). Readers only need the results.</li></ul></div>'+
+   '<div class="toolbar"><button class="cb" onclick="downloadCSV()">⬇ Data for jamovi (.csv)</button></div>';
+}
+function fillSlot(sl){
+  CELLS.filter(c=>c.slot===sl).forEach(c=>{ans[c.id]={v:fmtAns(c),st:'shown'};fbs[c.id]='<span class="mut">Filled in for you.</span>';});
+  if(sl===1)S.g.forEach((x,gi)=>fillSqState(gi));
+  renderWS();
 }
 function toggleShowAll(){showAll=document.getElementById('showall').checked;if(!showAll){clearAnswers();return;}resetParts();renderWS();}
 function resetParts(){['p4body','p5body'].forEach(id=>{document.getElementById(id).dataset.drawn='';});p3drawn=false;}
 function clearAnswers(){ans={};fbs={};sq={};sqMsg={};focusId=null;hintOpen=workOpen=false;dec={sel:null,done:false,fb:''};tk={sel:[false,false,false],done:false,fb:''};showAll=false;const sa=document.getElementById('showall');if(sa)sa.checked=false;resetParts();renderWS();}
 function renderSteps(){renderWS();}
 
-function resultsText(){
-  const g=S.g;let t='One-way ANOVA: days until infection cleared, by antibiotic\n\n';
-  t+='Group'.padEnd(14)+'n'.padStart(4)+'Mean'.padStart(9)+'s²'.padStart(9)+'s'.padStart(8)+'\n';
-  g.forEach(x=>{t+=x.name.slice(0,13).padEnd(14)+String(x.n).padStart(4)+f2(x.mean).padStart(9)+f2(x.vr).padStart(9)+f2(x.sd).padStart(8)+'\n';});
-  t+='Grand mean = '+f2(S.gm)+'   N = '+S.N+'   k = '+S.k+'\n\n';
-  t+='Source'.padEnd(10)+'SS'.padStart(10)+'df'.padStart(5)+'MS'.padStart(10)+'F'.padStart(8)+'p'.padStart(9)+'\n';
-  t+='Between'.padEnd(10)+f2(S.SSB).padStart(10)+String(S.dfB).padStart(5)+f2(S.MSB).padStart(10)+f2(S.F).padStart(8)+fmtP(S.p).padStart(9)+'\n';
-  t+='Within'.padEnd(10)+f2(S.SSW).padStart(10)+String(S.dfW).padStart(5)+f2(S.MSW).padStart(10)+'\n';
-  t+='Total'.padEnd(10)+f2(S.SST).padStart(10)+String(S.dfT).padStart(5)+'\n\n';
-  t+='F('+S.dfB+', '+S.dfW+') = '+f2(S.F)+', p '+(S.p<.001?'< .001':'= '+fmtP(S.p))+' → '+(S.p<.05?'reject H₀':'fail to reject H₀')+'\n\n';
-  t+='Tukey post-hoc:\n';S.pairs.forEach(pr=>{t+='  '+g[pr.i].name+' vs '+g[pr.j].name+': diff = '+f2(pr.diff)+' days, p = '+fmtP(pr.p)+(pr.p<.05?'  *':'')+'\n';});
-  return t;
+/* ---------- calculator ---------- */
+let calcHist=[];
+function calcToggle(force){const p=document.getElementById('calc');const o=force!==undefined?force:p.hidden;p.hidden=!o;document.getElementById('calcbtn').setAttribute('aria-expanded',o);if(o)document.getElementById('cin').focus();}
+function calcIns(t){const i=document.getElementById('cin');const s=i.selectionStart??i.value.length,e=i.selectionEnd??i.value.length;i.value=i.value.slice(0,s)+t+i.value.slice(e);const c=s+t.length;i.focus();i.setSelectionRange(c,c);calcPreview();}
+function calcKey(k){const i=document.getElementById('cin');
+  if(k==='C'){i.value='';document.getElementById('cout').textContent='';i.focus();return;}
+  if(k==='⌫'){const s=i.selectionStart??i.value.length;if(s>0){i.value=i.value.slice(0,s-1)+i.value.slice(s);i.setSelectionRange(s-1,s-1);}i.focus();calcPreview();return;}
+  if(k==='='){calcEval(true);return;}
+  calcIns(k==='√'?'√(':k==='x²'?'²':k);
 }
-function copyResults(){const t=resultsText();const ok=()=>{document.getElementById('copied').textContent='Copied ✓';};
-  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok);}
-function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){}ta.remove();}
+function calcParse(str){
+  let s=str.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/,/g,'').replace(/\^/g,'**').replace(/²/g,'**2').replace(/√/g,'Math.sqrt').replace(/ans/gi,'('+(calcHist.length?calcHist[0].r:0)+')');
+  const chk=s.replace(/Math\.sqrt/g,'').replace(/\*\*/g,'*');
+  if(!/^[0-9+\-*/().\s]*$/.test(chk))return null;
+  try{const v=Function('"use strict";return ('+s+')')();return typeof v==='number'&&isFinite(v)?v:null;}catch(e){return null;}
+}
+const cfmt=v=>String(Math.round(v*1e6)/1e6);
+function calcPreview(){const v=calcParse(document.getElementById('cin').value);document.getElementById('cout').textContent=v===null?'':'= '+cfmt(v);}
+function calcEval(){const i=document.getElementById('cin');if(!i.value.trim())return;const v=calcParse(i.value);
+  if(v===null){document.getElementById('cout').textContent='Check the expression';return;}
+  calcHist.unshift({e:i.value,r:cfmt(v)});calcHist=calcHist.slice(0,6);
+  document.getElementById('chist').innerHTML=calcHist.map(h=>'<div class="chrow" title="Click to reuse" onclick="calcIns(\''+h.r+'\')"><span>'+h.e.replace(/</g,'&lt;')+'</span><b>= '+h.r+'</b></div>').join('');
+  i.value=calcHist[0].r;document.getElementById('cout').textContent='';i.focus();
+}
+
 function downloadCSV(){
   if(!S)compute();
   let csv='antibiotic,days_to_clear\n';S.g.forEach(g=>g.x.forEach(v=>{csv+='"'+g.name.replace(/"/g,'""')+'",'+v+'\n';}));
